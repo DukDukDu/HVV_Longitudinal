@@ -72,6 +72,7 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT, TH1F *eeinv){
     double px[10], py[10], pz[10], E[10];
     double pT[10];//, eta[4], phi[4];
     int moth1[10],moth2[10];
+    float Mass;
     TLorentzVector mom, mom_ee;
 
     tree->SetBranchAddress("Particle.Px", &px);
@@ -82,6 +83,7 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT, TH1F *eeinv){
     tree->SetBranchAddress("Particle.PT", &pT);
     tree->SetBranchAddress("Particle.Mother1", &moth1);
     tree->SetBranchAddress("Particle.Mother2", &moth2);
+    tree->SetBranchAddress("inv_mass", &Mass);
     // tree->SetBranchAddress("Particle.Eta", &eta);
     // tree->SetBranchAddress("Particle.Phi", &phi);
 
@@ -129,7 +131,7 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT, TH1F *eeinv){
 
                 for(int j1 = 0; j1 < 10 ; j1++){//find electron pairs
 
-                    if(pid[j1] == -11 && moth1[j] == moth1[j1] && moth1[j] != 1){
+                    if(pid[j1] == -11 && moth1[j] == moth1[j1] && moth1[j] != 0 && Mass < 150){
                         px_ee = px[j] + px[j1];
                         py_ee = py[j] + py[j1];
                         pz_ee = pz[j] + pz[j1];

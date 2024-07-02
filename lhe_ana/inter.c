@@ -47,7 +47,7 @@ void inter(){
     TH1F *h_tot_4l = new TH1F("h_tot_4l", " ", 50, 0, 1000);
     TH1F *lpt_tot_4l = new TH1F("lpt_tot_4l", " ", 50, 0, 500);
     TH1F *ptz_tot_4l = new TH1F("ptz_tot_4l", " ", 500, 0, 500);
-    TH1F *eeinv_tot_4l = new TH1F("eeinv_tot_4l", " ", 20, 0, 200);
+    TH1F *eeinv_tot_4l = new TH1F("eeinv_tot_4l", " ", 500, 0, 500);
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -117,6 +117,8 @@ void inter(){
     eeinv_tot_4l->GetYaxis()->SetTitle("Events");
     eeinv_tot_4l->Draw("hist");
     c2->SaveAs("eeinv.png");
+
+    cout << eeinv_tot_4l->Integral() << endl;
 
     // eeinvch->SetLineColor(kRed);
     // eeinvch->SetLineStyle(2);
