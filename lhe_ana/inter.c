@@ -11,7 +11,8 @@
 
 #include "stdio.h"
 #include "draw.h"
-#include "read_lhe.h"
+#include "read_lhe_zz.h"
+#include "read_lhe_4l.h"
 
 using namespace LHE;
 using namespace LHE_4l;
@@ -77,72 +78,27 @@ void inter(){
     TCanvas *c = new TCanvas;
     h_tot_4l->GetXaxis()->SetTitle("Mass (GeV)");
     h_tot_4l->GetYaxis()->SetTitle("Density");
-    //h_sig->Scale(1/h_sig->Integral());
     h_tot_4l->SetLineColor(kBlue);
-    //h_sig->SetMaximum(0.15);
-    h_tot_4l->SetStats(0);
+    //h_tot_4l->SetStats(0);
     h_tot_4l->Draw("hist");
 
-    //invmass_ch->SetLineColor(kRed);
-    //invmass_ch->Draw("same hist");
-    c->SaveAs("invmass.png");
-
-    // h_sig_4l->SetLineColor(kRed);
-    // h_sig_4l->Scale(1/h_sig_4l->Integral());
-    // h_sig_4l->Draw("same hist"); 
-
-    // TLegend *legend = new TLegend(0.7, 0.8, 0.9, 0.9);
-    // legend->AddEntry(h_sig_4l, "gg>h>4l", "l");
-    // legend->AddEntry(h_sig, "gg>h>zz", "l");
-    // legend->Draw();
+    c->SaveAs("./pic/invmass.png");
     
     TCanvas *c1 = new TCanvas;
     ptz_tot_4l->GetXaxis()->SetTitle(" ee pTco (GeV)");
     ptz_tot_4l->GetYaxis()->SetTitle("Events");
-    //ptz_tot_4l->SetStats(0);
     ptz_tot_4l->Draw("hist");
-    c1->SaveAs("lptz.png");
-
-    // ch_ptz->SetLineColor(kRed);
-    // ch_ptz->SetLineStyle(2);
-    // ch_ptz->Draw("same hist");
-
-    // TLegend *legend = new TLegend(0.7, 0.8, 0.9, 0.9);
-    // legend->AddEntry(no_ptz, "nochange_fort", "l");
-    // legend->AddEntry(ch_ptz, "change_fort", "l");
-    // legend->Draw();
+    c1->SaveAs("./pic/lptz.png");
 
     TCanvas *c2 = new TCanvas;
     eeinv_tot_4l->GetXaxis()->SetTitle(" ee inv_mass (GeV)");
     eeinv_tot_4l->GetYaxis()->SetTitle("Events");
     eeinv_tot_4l->Draw("hist");
-    c2->SaveAs("eeinv.png");
+    c2->SaveAs("./pic/eeinv.png");
 
     cout << eeinv_tot_4l->Integral() << endl;
-
-    // eeinvch->SetLineColor(kRed);
-    // eeinvch->SetLineStyle(2);
-    // eeinvch->Draw("same hist");
-
-    // TLegend *legendee = new TLegend(0.7, 0.8, 0.9, 0.9);
-    // legendee->AddEntry(eeinvno, "nochange_fort", "l");
-    // legendee->AddEntry(eeinvch, "change_fort", "l");
-    // legendee->Draw();
-    // char xaxistitle[] = "#Delta #eta";
-    // char yaxis[] = "d#sigma";
-    
     //Draw_Norm(lpt_tot, lpt_bkd, lpt_sig, 50, 0, 500, xaxistitle, yaxis);
     //Draw_Norm(deltaeta_tot, deltaeta_bkd, deltaeta_sig, 50, 0, 10, xaxistitle, yaxis);
     //Draw_Norm(deltaphi_tot, deltaphi_bkd, deltaphi_sig, 40, 0, 4, xaxistitle,yaxis);
     //Draw_Norm(h_tot, h_bkd, h_sig, 50, 0, 1000, xaxistitle, yaxis);
-
-    // h_sig_4l->GetXaxis()->SetTitle("Mass (GeV)");
-    // h_sig_4l->GetYaxis()->SetTitle("Density");
-    // h_sig_4l->Scale(1/h_sig->Integral());
-    // h_sig_4l->SetLineColor(kBlue);
-    // h_sig_4l->SetMaximum(0.035);
-    // h_sig_4l->SetStats(0);
-    // h_sig_4l->Draw("hist");
-
-
 }
