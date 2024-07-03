@@ -1,5 +1,4 @@
 //////////////////////////////////////////////Draw some hists
-namespace LHE{
 void Draw(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge, char *xname, char *yname){
     
     TCanvas *c1 = new TCanvas;
@@ -107,16 +106,14 @@ void Draw(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge
 
 void Draw_Norm(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge, char *xname, char *yname){
 
-    TCanvas *c5 = new TCanvas();
-
-    //c5->SetLogy();
+    TCanvas *c = new TCanvas();
 
     h_bkg->GetXaxis()->SetTitle(xname);
     h_bkg->GetYaxis()->SetTitle(yname);
     h_bkg->SetStats(0);
     h_bkg->Scale(1/h_bkg->Integral());
     h_bkg->SetLineColor(kRed);
-    h_bkg->SetMaximum(0.15);
+    //h_bkg->SetMaximum(0.15);
     //h_bkg->SetMinimum(0);
     h_bkg->Draw("hist");
 
@@ -134,7 +131,6 @@ void Draw_Norm(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r
     legend3->AddEntry(h_bkg, "gg bkg", "l");
     legend3->Draw();
 
-    c5->SaveAs("./c5.png");
+    c->SaveAs("./c.png");
 
-}
 }

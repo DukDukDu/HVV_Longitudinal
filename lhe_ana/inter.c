@@ -21,43 +21,74 @@ void inter(){
 
 //////////////////////zz final state////////////////////////////////////
 
-    TFile *f1 = new TFile("../ggzz/gg_tot.root", "READ");
-    TFile *f2 = new TFile("../ggzz/gg_bkg.root", "READ");
-    TFile *f3 = new TFile("../ggzz/gg_sig.root", "READ");
+    // TFile *f1 = new TFile("../ggzz/gg_tot.root", "READ");
+    // TFile *f2 = new TFile("../ggzz/gg_bkg.root", "READ");
+    // TFile *f3 = new TFile("../ggzz/gg_sig.root", "READ");
 
-    TH1F *h_tot = new TH1F("h_tot", " ", 50, 0, 1000);
-    TH1F *h_bkd = new TH1F("h_bkg", " ", 50, 0, 1000);
-    TH1F *h_sig = new TH1F("h_sig", " ", 30, 0, 3000);
+    // TH1F *h_tot = new TH1F("h_tot", " ", 50, 0, 1000);
+    // TH1F *h_bkd = new TH1F("h_bkg", " ", 50, 0, 1000);
+    // TH1F *h_sig = new TH1F("h_sig", " ", 30, 0, 3000);
 
-    TH1F *lpt_tot = new TH1F("lpt_tot", " ", 50, 0, 500);
-    TH1F *lpt_bkd = new TH1F("lpt_bkg", " ", 50, 0, 500);
-    TH1F *lpt_sig = new TH1F("lpt_sig", " ", 50, 0, 500);
+    // TH1F *lpt_tot = new TH1F("lpt_tot", " ", 50, 0, 500);
+    // TH1F *lpt_bkd = new TH1F("lpt_bkg", " ", 50, 0, 500);
+    // TH1F *lpt_sig = new TH1F("lpt_sig", " ", 50, 0, 500);
 
-    TH1F *deltaeta_tot = new TH1F("deltaeta_tot", " ", 50, 0, 10);
-    TH1F *deltaeta_bkd = new TH1F("deltaeta_bkg", " ", 50, 0, 10);
-    TH1F *deltaeta_sig = new TH1F("deltaeta_sig", " ", 50, 0, 10);
+    // TH1F *deltaeta_tot = new TH1F("deltaeta_tot", " ", 50, 0, 10);
+    // TH1F *deltaeta_bkd = new TH1F("deltaeta_bkg", " ", 50, 0, 10);
+    // TH1F *deltaeta_sig = new TH1F("deltaeta_sig", " ", 50, 0, 10);
 
-    TH1F *deltaphi_tot = new TH1F("deltaphi_tot", " ", 40, 0, 4);
-    TH1F *deltaphi_bkd = new TH1F("deltaphi_bkg", " ", 40, 0, 4);
-    TH1F *deltaphi_sig = new TH1F("deltaphi_sig", " ", 40, 0, 4);
+    // TH1F *deltaphi_tot = new TH1F("deltaphi_tot", " ", 40, 0, 4);
+    // TH1F *deltaphi_bkd = new TH1F("deltaphi_bkg", " ", 40, 0, 4);
+    // TH1F *deltaphi_sig = new TH1F("deltaphi_sig", " ", 40, 0, 4);
 
 ///////////////////////4l final state////////////////////////////////////
 
-    TFile *f3_4l = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_tot/gg2e2m/jobs/rootfile/total.root", "READ");
-    
-    TH1F *h_tot_4l = new TH1F("h_tot_4l", " ", 50, 0, 1000);
-    TH1F *lpt_tot_4l = new TH1F("lpt_tot_4l", " ", 50, 0, 500);
-    TH1F *ptz_tot_4l = new TH1F("ptz_tot_4l", " ", 500, 0, 500);
-    TH1F *eeinv_tot_4l = new TH1F("eeinv_tot_4l", " ", 500, 0, 500);
+    TFile *tot_file = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_tot/gg2e2m/jobs/rootfile/total.root", "READ");
+    TFile *bkg_file = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_bkg/gg2e2m/jobs/rootfile/total.root", "READ");
+    TFile *sig_file = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_sig/gg2e2m/jobs/rootfile/total.root", "READ");
 
-//////////////////////////////////////////////////////////////////////////
 
-    //LHE::Fill_histogram(f1, h_tot, lpt_tot, deltaeta_tot, deltaphi_tot);
-    //LHE::Fill_histogram(f2, h_bkd, lpt_bkd, deltaeta_bkd, deltaphi_bkd);
-    LHE_4l::Fill_histogram(f3_4l, h_tot_4l, ptz_tot_4l, eeinv_tot_4l);
-    //LHE_4l::Fill_histogram(g4e_ch, invmass_ch, ch_ptz, eeinvch);
+    TH1F *invmass_tot = new TH1F("invmass_tot", " ", 100, 0, 1000);
+    TH1F *leadingpT_l_tot = new TH1F("leadingpT_l_tot", " ", 50, 0, 500);
+    TH1F *leadingpT_z_tot = new TH1F("leadingpT_z_tot", " ", 500, 0, 500);
+    TH1F *leading_z_eta_tot = new TH1F("leading_z_eta_tot", " ", 60, 0, 6);
+    TH1F *leading_l_eta_tot = new TH1F("leading_l_eta_tot", " ", 60, 0, 6);
+    TH1F *l_phi_tot = new TH1F("l_phi_tot", " ", 40, -4, 4);
+    TH1F *eeinv_tot = new TH1F("eeinv_tot", " ", 500, 0, 500);
+    TH1F *mminv_tot = new TH1F("mminv_tot", " ", 500, 0, 500);
 
-    //LHE_4l::Fill_histogram(f3_4l, h_sig_4l, lpt_sig_4l);
+    TH1F *invmass_bkg = new TH1F("invmass_bkg", " ", 100, 0, 1000);
+    TH1F *leadingpT_l_bkg = new TH1F("leadingpT_l_bkg", " ", 50, 0, 500);
+    TH1F *leadingpT_z_bkg = new TH1F("leadingpT_z_bkg", " ", 500, 0, 500);
+    TH1F *leading_z_eta_bkg = new TH1F("leading_z_eta_bkg", " ", 60, 0, 6);
+    TH1F *leading_l_eta_bkg= new TH1F("leading_l_eta_bkg", " ", 60, 0, 6);
+    TH1F *l_phi_bkg = new TH1F("l_phi_bkg", " ", 40, -4, 4);
+    TH1F *eeinv_bkg = new TH1F("eeinv_bkg", " ", 500, 0, 500);
+    TH1F *mminv_bkg = new TH1F("mminv_bkg", " ", 500, 0, 500);
+
+    TH1F *invmass_sig = new TH1F("invmass_sig", " ", 100, 0, 1000);
+    TH1F *leadingpT_l_sig = new TH1F("leadingpT_l_sig", " ", 50, 0, 500);
+    TH1F *leadingpT_z_sig = new TH1F("leadingpT_z_sig", " ", 500, 0, 500);
+    TH1F *leading_z_eta_sig = new TH1F("leading_z_eta_sig", " ", 60, 0, 6);
+    TH1F *leading_l_eta_sig= new TH1F("leading_l_eta_sig", " ", 60, 0, 6);
+    TH1F *l_phi_sig = new TH1F("l_phi_sig", " ", 40, -4, 4);
+    TH1F *eeinv_sig = new TH1F("eeinv_sig", " ", 500, 0, 500);
+    TH1F *mminv_sig = new TH1F("mminv_sig", " ", 500, 0, 500);
+
+    LHE_4l::Fill_histogram(tot_file, invmass_tot, leadingpT_z_tot, leadingpT_l_tot, leading_z_eta_tot,\
+                           leading_l_eta_tot, l_phi_tot, eeinv_tot, mminv_tot);
+    LHE_4l::Fill_histogram(bkg_file, invmass_bkg, leadingpT_z_bkg, leadingpT_l_bkg, leading_z_eta_bkg,\
+                           leading_l_eta_bkg, l_phi_bkg, eeinv_bkg, mminv_tot);
+    LHE_4l::Fill_histogram(sig_file, invmass_sig, leadingpT_z_sig, leadingpT_l_sig, leading_z_eta_sig,\
+                           leading_l_eta_sig, l_phi_sig, eeinv_sig, mminv_tot);
+
+    char xaxistitle[] = "inv mass(GeV)";
+    char yaxis[] = "Density";
+
+    Draw_Norm(invmass_tot, invmass_bkg, invmass_sig, 100, 0, 1000, xaxistitle, yaxis);
+    // Draw_Norm(deltaeta_tot, deltaeta_bkd, deltaeta_sig, 50, 0, 10, xaxistitle, yaxis);
+    // Draw_Norm(deltaphi_tot, deltaphi_bkd, deltaphi_sig, 40, 0, 4, xaxistitle,yaxis);
+    // Draw_Norm(h_tot, h_bkd, h_sig, 50, 0, 1000, xaxistitle, yaxis);
 
 
 ///////////////////////////////////////examine the fortran code ///////////
@@ -75,28 +106,28 @@ void inter(){
     // TH1F *eeinvch = new TH1F("eeinvno", " ", 20, 0, 200);
 //////////////////////////////////////////////////////////////////////////
 
-    TCanvas *c = new TCanvas;
-    h_tot_4l->GetXaxis()->SetTitle("Mass (GeV)");
-    h_tot_4l->GetYaxis()->SetTitle("Density");
-    h_tot_4l->SetLineColor(kBlue);
-    //h_tot_4l->SetStats(0);
-    h_tot_4l->Draw("hist");
+    // TCanvas *c = new TCanvas;
+    // h_tot_4l->GetXaxis()->SetTitle("Mass (GeV)");
+    // h_tot_4l->GetYaxis()->SetTitle("Density");
+    // h_tot_4l->SetLineColor(kBlue);
+    // //h_tot_4l->SetStats(0);
+    // h_tot_4l->Draw("hist");
 
-    c->SaveAs("./pic/invmass.png");
+    // c->SaveAs("./pic/invmass.png");
     
-    TCanvas *c1 = new TCanvas;
-    ptz_tot_4l->GetXaxis()->SetTitle(" ee pTco (GeV)");
-    ptz_tot_4l->GetYaxis()->SetTitle("Events");
-    ptz_tot_4l->Draw("hist");
-    c1->SaveAs("./pic/lptz.png");
+    // TCanvas *c1 = new TCanvas;
+    // ptz_tot_4l->GetXaxis()->SetTitle(" ee pTco (GeV)");
+    // ptz_tot_4l->GetYaxis()->SetTitle("Events");
+    // ptz_tot_4l->Draw("hist");
+    // c1->SaveAs("./pic/lptz.png");
 
-    TCanvas *c2 = new TCanvas;
-    eeinv_tot_4l->GetXaxis()->SetTitle(" ee inv_mass (GeV)");
-    eeinv_tot_4l->GetYaxis()->SetTitle("Events");
-    eeinv_tot_4l->Draw("hist");
-    c2->SaveAs("./pic/eeinv.png");
+    // TCanvas *c2 = new TCanvas;
+    // eeinv_tot_4l->GetXaxis()->SetTitle(" ee inv_mass (GeV)");
+    // eeinv_tot_4l->GetYaxis()->SetTitle("Events");
+    // eeinv_tot_4l->Draw("hist");
+    // c2->SaveAs("./pic/eeinv.png");
 
-    cout << eeinv_tot_4l->Integral() << endl;
+    // cout << eeinv_tot_4l->Integral() << endl;
     //Draw_Norm(lpt_tot, lpt_bkd, lpt_sig, 50, 0, 500, xaxistitle, yaxis);
     //Draw_Norm(deltaeta_tot, deltaeta_bkd, deltaeta_sig, 50, 0, 10, xaxistitle, yaxis);
     //Draw_Norm(deltaphi_tot, deltaphi_bkd, deltaphi_sig, 40, 0, 4, xaxistitle,yaxis);
