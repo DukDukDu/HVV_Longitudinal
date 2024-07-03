@@ -82,13 +82,41 @@ void inter(){
     LHE_4l::Fill_histogram(sig_file, invmass_sig, leadingpT_z_sig, leadingpT_l_sig, leading_z_eta_sig,\
                            leading_l_eta_sig, l_phi_sig, eeinv_sig, mminv_tot);
 
-    char xaxistitle[] = "inv mass(GeV)";
-    char yaxis[] = "Density";
+    char invmass_x[] = "inv_mass(GeV)";
+    string invmass_name = "inv_mass";
+    char leadingpT_l_x[] = "leading_pT_l(GeV)";
+    string leadingpT_l_name = "leadingpT_l";
+    char leadingpT_z_x[] = "leading_pT_z(GeV)";
+    string leadingpT_z_name = "leadingpT_z";
+    char leading_z_eta_x[] = "leading_z_eta";
+    string leading_z_eta_name = "leading_z_eta";
+    char leading_l_eta_x[] = "leading_l_eta";
+    string leading_l_eta_name = "leading_l_eta";
+    char l_phi_x[] = "l_phi";
+    string l_phi_name = "l_phi";
+    char eeinv_x[] = "ee_inv_mass(GeV)";
+    string eeinv_name = "eeinv";
+    char mminv_x[] = "mm_inv_mass(GeV)";
+    string mminv_name = "mminv";
+    char dyaxis[] = "Density";
 
-    Draw_Norm(invmass_tot, invmass_bkg, invmass_sig, 100, 0, 1000, xaxistitle, yaxis);
-    // Draw_Norm(deltaeta_tot, deltaeta_bkd, deltaeta_sig, 50, 0, 10, xaxistitle, yaxis);
-    // Draw_Norm(deltaphi_tot, deltaphi_bkd, deltaphi_sig, 40, 0, 4, xaxistitle,yaxis);
-    // Draw_Norm(h_tot, h_bkd, h_sig, 50, 0, 1000, xaxistitle, yaxis);
+    //TCanvas *invmass = new TCanvas;
+    Draw_Norm(invmass_tot, invmass_bkg, invmass_sig, 100, 0, 1000,\
+              invmass_x, dyaxis, invmass_name);
+    Draw_Norm(leadingpT_l_tot, leadingpT_l_bkg, leadingpT_l_sig, 50, 0, 500,\
+              leadingpT_l_x, dyaxis, leadingpT_l_name);
+    Draw_Norm(leadingpT_z_tot, leadingpT_z_bkg, leadingpT_z_bkg, 500, 0, 500,\
+              leadingpT_z_x, dyaxis, leadingpT_z_name);
+    Draw_Norm(leading_z_eta_tot, leading_z_eta_bkg, leading_z_eta_sig, 60, 0, 6,\
+              leading_z_eta_x, dyaxis, leading_z_eta_name);
+    Draw_Norm(leading_l_eta_tot, leading_l_eta_bkg, leading_l_eta_sig, 60, 0, 6,\
+              leading_l_eta_x, dyaxis, leading_l_eta_name);
+    Draw_Norm(l_phi_tot, l_phi_bkg, l_phi_sig, 40, -4, 4,\
+              l_phi_x, dyaxis, l_phi_name);
+    Draw_Norm(eeinv_tot, eeinv_bkg, eeinv_sig, 500, 0, 500,\
+              eeinv_x, dyaxis, eeinv_name);
+    Draw_Norm(mminv_tot, mminv_bkg, mminv_sig, 500, 0, 500,\
+              mminv_x, dyaxis, mminv_name);
 
 
 ///////////////////////////////////////examine the fortran code ///////////

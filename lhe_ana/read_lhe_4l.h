@@ -110,9 +110,9 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT_z, TH1F *leadin
         
                 
         mom.SetPxPyPzE(px_l, py_l, pz_l, E_l);//fill 4l Lorentz vec
-
+        //cout << have_z << " ";
         //Fill Histgram                   
-        if(have_z == 2){//choose 2 z event 
+        if(have_z != 0){//choose 2 z event 
             leadingpT_z->Fill(leading_pT);
             leading_z_eta->Fill(eta[leading_z_No]);
         }
