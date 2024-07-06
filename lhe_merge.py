@@ -5,14 +5,14 @@
 import sys
 import os
 
-mypub="/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_{0}/{1}/jobs".format(sys.argv[1], sys.argv[2]) #this path is in ihep cluster
+mypub="/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_{0}/{1}/{2}".format(sys.argv[1], sys.argv[2], sys.argv[3]) #this path is in ihep cluster
 rootfile = "{0}/rootfile".format(mypub)
 os.system("rm -rf {0} ; mkdir -p {0}".format(rootfile))
 
 #create lhe file path list
 file_list = []
 for i in range(100):
-    file_list.append("{0}/gg2e2m_tot-0000{1:02d}".format(mypub, i))
+    file_list.append("{0}/{1}_{2}-0000{3:02d}".format(mypub, sys.argv[2], sys.argv[1], i))
 
 #ls the dir to out.txt and read out.txt to examine if the lhe file exists
 j=0
@@ -25,6 +25,6 @@ for f in file_list:
                 {0}/cmsgrid_final.lhe {1}/cmsfinal{2:02d}.root".format(f, rootfile, j)) #convert lhe files into root files
                 j = j+1
 
-print("You have converted {0} files and then you will hadd them......................".format(j+1))
+print("You have converted {0} files and then you will hadd them......................".format(j))
 
 os.system("hadd {0}/total.root {0}/*.root".format(rootfile)) #hadd them into total.root file

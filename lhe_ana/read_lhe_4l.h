@@ -5,7 +5,7 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT_z, TH1F *leadin
                     TH1F *leading_z_eta, TH1F *leading_l_eta, TH1F *l_phi, TH1F *eeinv, TH1F *mminv){
     TTree *tree = (TTree*)file->Get("LHEF");
     
-    int pid[10], n;
+    int pid[10], n, count=0;
     double px[10], py[10], pz[10], E[10];
     double pT[10], eta[10], phi[10];
     int moth1[10],moth2[10];
@@ -38,11 +38,11 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT_z, TH1F *leadin
         int have_z = 0, have_l = 0;
         int leading_z_No=0, leading_l_No=0, leading_z_No_tem=0, leading_l_No_tem=0;
         
-        if(Mass > 150.){
-
+        if(Mass > 140.){
+            count = count + 1;
             for (int j = 0; j < 10; j++){
                 //calculate inviriant mass
-                if(pid[j] == 11 || pid[j] == -11 || pid[j] == 13 || pid [j] == -13){
+                if(pid[j] == 11 || pid[j] == -11 || pid[j] == 13 || pid[j] == -13){
                     have_l = have_l + 1;//count lepton number
 
                     px_l = px_l + px[j];
@@ -77,13 +77,13 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT_z, TH1F *leadin
             }
                 if(pid[j] == 11){
 
-                    for(int j1 = 0; j1 < 10 ; j1++){//find electron pairs
+                    for(int je = 0; je < 10 ; je++){//find electron pairs
 
-                        if(pid[j1] == -11 && moth1[j] == moth1[j1] && pid[moth1[j]] == 23){//select electron pairs from z(maybe on-shell)
-                            px_ee = px[j] + px[j1];
-                            py_ee = py[j] + py[j1];
-                            pz_ee = pz[j] + pz[j1];
-                            E_ee = E[j] + E[j1];
+                        if(pid[je] == -11 && moth1[j] == moth1[je] && pid[moth1[j]] == 23){//select electron pairs from z(maybe on-shell)
+                            px_ee = px[j] + px[je];
+                            py_ee = py[j] + py[je];
+                            pz_ee = pz[j] + pz[je];
+                            E_ee = E[j] + E[je];
                             mom_ee.SetPxPyPzE(px_ee, py_ee, pz_ee, E_ee);
                             eeinv->Fill(mom_ee.M());//ee pair invmass
                     }
@@ -91,15 +91,16 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT_z, TH1F *leadin
             }
                 if(pid[j] == 13){
 
-                    for(int j1 = 0; j1 < 10 ; j1++){//find muon pairs
+                    for(int jm = 0; jm < 10 ; jm++){//find muon pairs
 
-                        if(pid[j1] == -13 && moth1[j] == moth1[j1] && pid[moth1[j]] == 23){//select muon pairs from z(maybe on-shell)
-                            px_mm = px[j] + px[j1];
-                            py_mm = py[j] + py[j1];
-                            pz_mm = pz[j] + pz[j1];
-                            E_mm = E[j] + E[j1];
+                        if(pid[jm] == -13 && moth1[j] == moth1[jm] && pid[moth1[j]] == 23){//select muon pairs from z(maybe on-shell)
+                            px_mm = px[j] + px[jm];
+                            py_mm = py[j] + py[jm];
+                            pz_mm = pz[j] + pz[jm];
+                            E_mm = E[j] + E[jm];
                             mom_mm.SetPxPyPzE(px_mm, py_mm, pz_mm, E_mm);
                             mminv->Fill(mom_mm.M());//mumu pair invmass
+                            //cout << mom_mm.M() << " ";
                     }
                 }
             }
@@ -129,6 +130,8 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT_z, TH1F *leadin
         memset(pid, 0, sizeof(pid)),memset(eta, 0, sizeof(eta)), memset(phi, 0, sizeof(phi));
         memset(moth1, 0, sizeof(moth1)),memset(moth2, 0, sizeof(moth2));
     }
+
+    cout << count << endl;
 
 }
 }

@@ -1,26 +1,36 @@
 //////////////////////////////////////////////Draw some hists
-void Draw(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge, char *xname, char *yname){
+void Draw(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge,\
+          char *xname, char *yname, double sx_tot, double sx_bkg, double sx_sig,\
+          string name){
     
+    string pathpng = "./pic/gg4m/";
+    string png1 = "_1.png", png2 = "_2.png", png3 = "_3.png", png4 = "_4.png";
+    string res1 = pathpng+name+png1, res2 = pathpng+name+png2, res3 = pathpng+name+png3, res4 = pathpng+name+png4;
+    const char *c_res1 = res1.c_str();
+    const char *c_res2 = res2.c_str();
+    const char *c_res3 = res3.c_str();
+    const char *c_res4 = res4.c_str();
+
     TCanvas *c1 = new TCanvas;
 
     //c1->SetLogy();
     h_bkg->GetXaxis()->SetTitle(xname);
     h_bkg->GetYaxis()->SetTitle(yname);
     h_bkg->SetStats(0);
-    h_bkg->Scale(1.54/h_bkg->Integral());
+    h_bkg->Scale(sx_bkg/h_bkg->Integral());
     h_bkg->SetLineColor(kRed);
-    //h_bkg->SetMaximum(0.2);
+    //h_bkg->SetMaximum(0.);
     //h_bkg->SetMinimum(0);
     h_bkg->Draw("hist");
     
-    h_tot->Scale(1.475/h_tot->Integral());
+    h_tot->Scale(sx_tot/h_tot->Integral());
     h_tot->Draw("hist same");
 
     TH1F *h_s_inter = new TH1F("h_s_inter", " ", gap, l_edge, r_edge);
 
     h_s_inter->Add(h_tot, h_bkg, -1, 1);
     h_s_inter->SetLineColor(kBlack);
-    h_s_inter->Scale(0.065/h_s_inter->Integral());
+    h_s_inter->Scale((sx_bkg-sx_tot)/h_s_inter->Integral());
     h_s_inter->Draw("hist same");
 
     TLegend *legend0 = new TLegend(0.7, 0.8, 0.9, 0.9);
@@ -28,16 +38,16 @@ void Draw(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge
     legend0->AddEntry(h_bkg, "bkg", "l");
     legend0->AddEntry(h_s_inter, "-(S+I)", "l");
     legend0->Draw();
-    c1->SaveAs("./c1.png");
+    c1->SaveAs(c_res1);
     
     TCanvas *c2 = new TCanvas;
 
     h_sig->GetXaxis()->SetTitle(xname);
     h_sig->GetYaxis()->SetTitle(yname);
     h_sig->SetStats(0);
-    h_sig->Scale(0.05974/h_sig->Integral());
+    h_sig->Scale(sx_sig/h_sig->Integral());
     h_sig->Draw("h");
-    c2->SaveAs("./c2.png");
+    c2->SaveAs(c_res2);
 
     TCanvas *c3 = new TCanvas;
 
@@ -48,7 +58,7 @@ void Draw(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge
     h_inter_s->GetYaxis()->SetTitle(yname);
     h_inter_s->SetStats(0);
     h_inter_s->SetLineColor(kBlue);
-    h_inter_s->SetMaximum(0.015);
+    h_inter_s->SetMaximum(0.1);
     h_inter_s->SetMinimum(-0.02);
     h_inter_s->Draw("h");
    
@@ -63,7 +73,7 @@ void Draw(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge
     legend1->AddEntry(h_sig, "S", "l");
     legend1->AddEntry(h_bkg, "gg bkg", "l");
     legend1->Draw();
-    c3->SaveAs("./c3.png");
+    c3->SaveAs(c_res3);
 
     TCanvas *c4 = new TCanvas;
 
@@ -73,17 +83,17 @@ void Draw(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge
     h_bkg->GetXaxis()->SetTitle(xname);
     h_bkg->GetYaxis()->SetTitle(yname);
     h_bkg->SetStats(0);
-    h_bkg->Scale(1.54/h_bkg->Integral());
+    h_bkg->Scale(sx_bkg/h_bkg->Integral());
     h_bkg->SetLineColor(kRed);
     //h_bkg->SetMaximum(1e4);
     //h_bkg->SetMinimum(1e-7);
     h_bkg->Draw("hist");
 
-    h_tot->Scale(1.475/h_tot->Integral());
+    h_tot->Scale(sx_tot/h_tot->Integral());
     h_tot->SetLineColor(kBlue);
     h_tot->Draw("hist same");
 
-    h_sig->Scale(0.05974/h_sig->Integral());
+    h_sig->Scale(sx_sig/h_sig->Integral());
     h_sig->SetLineColor(kBlack);
     h_sig->Draw("hist same");
 
@@ -92,14 +102,7 @@ void Draw(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge, int r_edge
     legend2->AddEntry(h_sig, "S", "l");
     legend2->AddEntry(h_bkg, "gg bkg", "l");
     legend2->Draw();
-    c4->SaveAs("./c4.png");
-
-    // char pic[] = "./c4_";
-    // char class[] = ".png";
-
-    // std::string &whole = std::string(pic) + std::string(xname) +std::string(class);
-
-    // char c[] = whole.c_str();
+    c4->SaveAs(c_res4);
 
 }
 
@@ -109,7 +112,7 @@ void Draw_Norm(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge,\
 
     TCanvas *c_norm = new TCanvas();
 
-    string pathpng = "./pic/";
+    string pathpng = "./pic/gg4m/";
     string png = ".png";
 
     string result = pathpng + name + png;
