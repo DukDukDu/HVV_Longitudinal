@@ -112,11 +112,13 @@ void Draw_Norm(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge,\
 
     TCanvas *c_norm = new TCanvas();
 
-    string pathpng = "./pic/gg4m/";
+    string pathpng = "./pic/gg2e2m/";
     string png = ".png";
 
     string result = pathpng + name + png;
     const char *c_res = result.c_str();
+
+    c_norm->SetLogy();
 
     h_bkg->GetXaxis()->SetTitle(xname);
     h_bkg->GetYaxis()->SetTitle(yname);
@@ -137,8 +139,8 @@ void Draw_Norm(TH1F *h_tot, TH1F *h_bkg, TH1F *h_sig, int gap, int l_edge,\
 
     TLegend *legend3 = new TLegend(0.7, 0.8, 0.9, 0.9);
     legend3->AddEntry(h_tot, "tot", "l");
-    legend3->AddEntry(h_sig, "S", "l");
-    legend3->AddEntry(h_bkg, "gg bkg", "l");
+    legend3->AddEntry(h_sig, "sig", "l");
+    legend3->AddEntry(h_bkg, "bkg", "l");
     legend3->Draw();
 
     c_norm->SaveAs(c_res);

@@ -2,7 +2,7 @@
 
 void update(){
 
-    TFile *filename = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_tot/gg4m/jobs/rootfile/total.root", "UPDATE");
+    TFile *filename = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_sig/gg2e2m/jobs/rootfile/total.root", "UPDATE");
 
     TTree *tree = (TTree*)filename->Get("LHEF");
 

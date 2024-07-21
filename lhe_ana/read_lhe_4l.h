@@ -49,7 +49,7 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT_z, TH1F *leadin
                     py_l = py_l + py[j];
                     pz_l = pz_l + pz[j];
                     E_l = E_l + E[j];
-                    tot_phi = tot_phi + phi[j];
+                    l_phi->Fill(phi[j]);
                 
                     leading_pT_l = pT[j];
                     leading_l_No = j;
@@ -120,7 +120,7 @@ void Fill_histogram(TFile *file, TH1F *inv_mass, TH1F *leadingpT_z, TH1F *leadin
         if(have_l == 4){//final states must contain 4l
             leadingpT_l->Fill(leading_pT_l);
             leading_l_eta->Fill(eta[leading_l_No]);
-            l_phi->Fill(tot_phi);
+            //l_phi->Fill(tot_phi);
             inv_mass->Fill(mom.M()); 
         } 
         

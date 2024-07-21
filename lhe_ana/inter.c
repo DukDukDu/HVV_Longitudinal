@@ -43,9 +43,9 @@ void inter(){
 
 ///////////////////////4l final state////////////////////////////////////
 
-    TFile *tot_file = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_tot/gg4m/jobs/rootfile/total.root", "READ");
-    TFile *bkg_file = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_bkg/gg4m/jobs/rootfile/total.root", "READ");
-    TFile *sig_file = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_sig/gg4m/jobs/rootfile/total.root", "READ");
+    TFile *tot_file = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_tot/gg2e2m/jobs/rootfile/total.root", "READ");
+    TFile *bkg_file = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_bkg/gg2e2m/jobs/rootfile/total.root", "READ");
+    TFile *sig_file = new TFile("/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/gg4l_sig/gg2e2m/jobs/rootfile/total.root", "READ");
 
 
     TH1F *invmass_tot = new TH1F("invmass_tot", " ", 100, 0, 1000);
@@ -54,8 +54,8 @@ void inter(){
     TH1F *leading_z_eta_tot = new TH1F("leading_z_eta_tot", " ", 60, 0, 6);
     TH1F *leading_l_eta_tot = new TH1F("leading_l_eta_tot", " ", 60, 0, 6);
     TH1F *l_phi_tot = new TH1F("l_phi_tot", " ", 40, -4, 4);
-    TH1F *eeinv_tot = new TH1F("eeinv_tot", " ", 500, 0, 500);
-    TH1F *mminv_tot = new TH1F("mminv_tot", " ", 500, 0, 500);
+    TH1F *eeinv_tot = new TH1F("eeinv_tot", " ", 40, 50, 150);
+    TH1F *mminv_tot = new TH1F("mminv_tot", " ", 40, 50, 150);
 
     TH1F *invmass_bkg = new TH1F("invmass_bkg", " ", 100, 0, 1000);
     TH1F *leadingpT_l_bkg = new TH1F("leadingpT_l_bkg", " ", 50, 0, 500);
@@ -63,8 +63,8 @@ void inter(){
     TH1F *leading_z_eta_bkg = new TH1F("leading_z_eta_bkg", " ", 60, 0, 6);
     TH1F *leading_l_eta_bkg= new TH1F("leading_l_eta_bkg", " ", 60, 0, 6);
     TH1F *l_phi_bkg = new TH1F("l_phi_bkg", " ", 40, -4, 4);
-    TH1F *eeinv_bkg = new TH1F("eeinv_bkg", " ", 500, 0, 500);
-    TH1F *mminv_bkg = new TH1F("mminv_bkg", " ", 500, 0, 500);
+    TH1F *eeinv_bkg = new TH1F("eeinv_bkg", " ", 40, 50, 150);
+    TH1F *mminv_bkg = new TH1F("mminv_bkg", " ", 40, 50, 150);
 
     TH1F *invmass_sig = new TH1F("invmass_sig", " ", 100, 0, 1000);
     TH1F *leadingpT_l_sig = new TH1F("leadingpT_l_sig", " ", 50, 0, 500);
@@ -72,8 +72,8 @@ void inter(){
     TH1F *leading_z_eta_sig = new TH1F("leading_z_eta_sig", " ", 60, 0, 6);
     TH1F *leading_l_eta_sig= new TH1F("leading_l_eta_sig", " ", 60, 0, 6);
     TH1F *l_phi_sig = new TH1F("l_phi_sig", " ", 40, -4, 4);
-    TH1F *eeinv_sig = new TH1F("eeinv_sig", " ", 500, 0, 500);
-    TH1F *mminv_sig = new TH1F("mminv_sig", " ", 500, 0, 500);
+    TH1F *eeinv_sig = new TH1F("eeinv_sig", " ", 40, 50, 150);
+    TH1F *mminv_sig = new TH1F("mminv_sig", " ", 40, 50, 150);
 
     LHE_4l::Fill_histogram(tot_file, invmass_tot, leadingpT_z_tot, leadingpT_l_tot, leading_z_eta_tot,\
                            leading_l_eta_tot, l_phi_tot, eeinv_tot, mminv_tot);
@@ -103,23 +103,23 @@ void inter(){
     string mminv_name = "mminv";
     char dyaxis[] = "Density";
 
-    //TCanvas *invmass = new TCanvas;
-    // Draw_Norm(invmass_tot, invmass_bkg, invmass_sig, 100, 0, 1000,\
-    //           invmass_x, dyaxis, invmass_name);
-    // Draw_Norm(leadingpT_l_tot, leadingpT_l_bkg, leadingpT_l_sig, 50, 0, 500,\
-    //           leadingpT_l_x, dyaxis, leadingpT_l_name);
-    // Draw_Norm(leadingpT_z_tot, leadingpT_z_bkg, leadingpT_z_sig, 500, 0, 500,\
-    //           leadingpT_z_x, dyaxis, leadingpT_z_name);
-    // Draw_Norm(leading_z_eta_tot, leading_z_eta_bkg, leading_z_eta_sig, 60, 0, 6,\
-    //           leading_z_eta_x, dyaxis, leading_z_eta_name);
-    // Draw_Norm(leading_l_eta_tot, leading_l_eta_bkg, leading_l_eta_sig, 60, 0, 6,\
-    //           leading_l_eta_x, dyaxis, leading_l_eta_name);
-    // Draw_Norm(l_phi_tot, l_phi_bkg, l_phi_sig, 40, -4, 4,\
-    //           l_phi_x, dyaxis, l_phi_name);
-    // Draw_Norm(eeinv_tot, eeinv_bkg, eeinv_sig, 500, 0, 500,\
-    //           eeinv_x, dyaxis, eeinv_name);
-    // Draw_Norm(mminv_tot, mminv_bkg, mminv_sig, 500, 0, 500,\
-    //           mminv_x, dyaxis, mminv_name);
+    TCanvas *invmass = new TCanvas;
+    Draw_Norm(invmass_tot, invmass_bkg, invmass_sig, 100, 0, 1000,\
+              invmass_x, dyaxis, invmass_name);
+    Draw_Norm(leadingpT_l_tot, leadingpT_l_bkg, leadingpT_l_sig, 50, 0, 500,\
+              leadingpT_l_x, dyaxis, leadingpT_l_name);
+    Draw_Norm(leadingpT_z_tot, leadingpT_z_bkg, leadingpT_z_sig, 500, 0, 500,\
+              leadingpT_z_x, dyaxis, leadingpT_z_name);
+    Draw_Norm(leading_z_eta_tot, leading_z_eta_bkg, leading_z_eta_sig, 60, 0, 6,\
+              leading_z_eta_x, dyaxis, leading_z_eta_name);
+    Draw_Norm(leading_l_eta_tot, leading_l_eta_bkg, leading_l_eta_sig, 60, 0, 6,\
+              leading_l_eta_x, dyaxis, leading_l_eta_name);
+    Draw_Norm(l_phi_tot, l_phi_bkg, l_phi_sig, 40, -4, 4,\
+              l_phi_x, dyaxis, l_phi_name);
+    Draw_Norm(eeinv_tot, eeinv_bkg, eeinv_sig, 500, 0, 500,\
+              eeinv_x, dyaxis, eeinv_name);
+    Draw_Norm(mminv_tot, mminv_bkg, mminv_sig, 500, 0, 500,\
+              mminv_x, dyaxis, mminv_name);
 
     // Draw(invmass_tot, invmass_bkg, invmass_sig, 100, 0, 1000,\
     //      invmass_x, dyaxis, sx_gg4e_4m_tot, sx_gg4e_4m_bkg, sx_gg4e_4m_bkg, invmass_name);
