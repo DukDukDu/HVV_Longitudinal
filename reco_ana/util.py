@@ -7,13 +7,18 @@ import sys
 def truth_filter_2e2m(genparticles):
     nbe = 0
     nbm = 0
+    lis = []
     for particle in genparticles:
+
+        lis.append(particle.PID)
         if abs(particle.PID) == 11:
             nbe +=1
         if abs(particle.PID) == 13:
             nbm +=1
-
-    if nbe == 2 and nbm == 2:
+        
+    #print('000000000000000000000000000000000')
+    #print("{0}, {1}".format(nbe, nbm))
+    if nbe >= 2 and nbm >= 2 :
         return True
     return False
 
@@ -37,7 +42,7 @@ def truth_filter_4e(genparticles):
         if abs(particle.PID) == 11:
             nbe +=1
 
-    if nbe == 4:
+    if nbe >= 4:
         return True
     return False
 
@@ -47,7 +52,7 @@ def truth_filter_4m(genparticles):
         if abs(particle.PID) == 13:
             nbm += 1
     
-    if nbm == 4:
+    if nbm >= 4:
         return True
     return False
 

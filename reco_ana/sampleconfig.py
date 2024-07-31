@@ -11,7 +11,7 @@ import os
 #         data_path = ihep_path
 #         break
 
-data_path = '/home/mingxuan/'
+data_path = '/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample'
 
 Lumi = 300  # fb^-1
 

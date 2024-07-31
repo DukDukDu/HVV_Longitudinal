@@ -1,5 +1,4 @@
 import ROOT as R
-from util import truth_filter_4tau2b_lepDecay_v2
 from array import array
 import anaconfig
 import sampleconfig

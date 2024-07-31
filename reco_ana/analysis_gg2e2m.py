@@ -35,6 +35,14 @@ class analysis_gg2e2m(analysis):
         analysis.mknewlf( self, 'mu1_phi', 'F' )
         analysis.mknewlf( self, 'mu1_e', 'F' )
 
+        analysis.mknewlf( self, 'inv_mass', 'F')
+        analysis.mknewlf( self, 'ee_inv_mass', 'F')
+        analysis.mknewlf( self, 'mm_inv_mass', 'F')
+        analysis.mknewlf( self, 'ee_pt', 'F')
+        analysis.mknewlf( self, 'mm_pt', 'F')
+        analysis.mknewlf( self, 'delta_eta_e', 'F')
+        analysis.mknewlf( self, 'delta_eta_m', 'F')
+
     def get_muoncharge(self, idx):
         return self.br_muon.At(idx).Charge
 
@@ -58,6 +66,9 @@ class analysis_gg2e2m(analysis):
             e1_v4 = None
             mu0_v4 = None
             mu1_v4 = None
+            ee_v4 = None
+            mm_v4 = None
+            tot_v4 = None
             
             #truth filter for gg2e2m
             if 'gg2e2m' in self.procnm:
@@ -71,9 +82,9 @@ class analysis_gg2e2m(analysis):
 
             for _ie in range(0, self.br_electron.GetEntries()):
                 _e = self.br_electron.At(_ie)
-                if _e.PT > 7 and abs(_e.eta) < 2.5:
+                if _e.PT > 7 and abs(_e.Eta) < 2.5:
                     _v = R.TLorentzVector()
-                    -v.SetPtEtaPhiM(_e.PT, _e.Eta, _e.Phi, self.ELE_MASS)
+                    _v.SetPtEtaPhiM(_e.PT, _e.Eta, _e.Phi, self.ELE_MASS)
                     lt_electron_sel.append((_v, _ie))
 
             analysis.sort_pt(self, lt_electron_sel)
@@ -101,7 +112,7 @@ class analysis_gg2e2m(analysis):
             analysis.fill_cut(self, '2 oppo sign electron')
 
             if len(lt_muon_sel) == 2:
-                if self.get_mucharge(lt_muon_sel[0][1])*self.get_mucharge(lt_muon_sel[1][1]) < 0:
+                if self.get_muoncharge(lt_muon_sel[0][1])*self.get_muoncharge(lt_muon_sel[1][1]) < 0:
                     mu0_v4 = lt_muon_sel[0][0]
                     mu1_v4 = lt_muon_sel[1][0]
                 else:
@@ -111,6 +122,10 @@ class analysis_gg2e2m(analysis):
                 continue
 
             analysis.fill_cut(self, '2 oppo sign muon')
+
+            ee_v4 = e0_v4 + e1_v4
+            mm_v4 = mu0_v4 + mu1_v4
+            tot_v4 = e0_v4 + e1_v4 + mu0_v4 + mu1_v4
 
             self.outlf['e0_pt'][0] = e0_v4.Pt()
             self.outlf['e0_eta'][0] = e0_v4.Eta()
@@ -129,6 +144,14 @@ class analysis_gg2e2m(analysis):
             self.outlf['mu1_eta'][0] = mu1_v4.Eta()
             self.outlf['mu1_phi'][0] = mu1_v4.Phi()
             self.outlf['mu1_e'][0] = mu1_v4.E()
+
+            self.outlf['inv_mass'][0] = tot_v4.M()
+            self.outlf['ee_inv_mass'][0] = ee_v4.M()
+            self.outlf['mm_inv_mass'][0] = mm_v4.M()
+            self.outlf['ee_pt'][0] = ee_v4.Pt()
+            self.outlf['mm_pt'][0] = mm_v4.Pt()
+            self.outlf['delta_eta_e'][0] = abs(e0_v4.Eta() - e1_v4.Eta())
+            self.outlf['delta_eta_m'][0] = abs(mu0_v4.Eta() - mu1_v4.Eta())
 
             genweight = self.br_event.At(0)
             self.outlf['weight'][0] = evt_weight * genweight.Weight
