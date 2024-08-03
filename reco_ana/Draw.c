@@ -131,31 +131,31 @@ void Draw(){
     double gg2e2m_bkg_xs = 1.74;
     double gg2e2m_sig_xs = 0.09585;
     
-    string inv_mass = "inv_mass";
-    string x_inv_mass = "inv mass(GeV)";
-    draw_fun_xs(tree_tot, tree_bkg, tree_sig, 100, 0, 1000, inv_mass, x_inv_mass);
+    string inv_mass = "e0_pt + e1_pt + mu0_pt + mu1_pt";
+    string x_inv_mass = "tot pt(GeV)";
+    draw_fun(tree_tot, tree_bkg, tree_sig, 100, 0, 1000, inv_mass, x_inv_mass);
 
-    string ee_inv_mass = "ee_inv_mass";
-    string x_ee_inv_mass = "ee inv mass(GeV)";
-    draw_fun_xs(tree_tot, tree_bkg, tree_sig, 110, 40, 130, ee_inv_mass, x_ee_inv_mass);
+    // string ee_inv_mass = "ee_inv_mass";
+    // string x_ee_inv_mass = "ee inv mass(GeV)";
+    // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 110, 40, 130, ee_inv_mass, x_ee_inv_mass);
 
-    string mm_inv_mass = "mm_inv_mass";
-    string x_mm_inv_mass = "#mu#mu inv mass(GeV)";
-    draw_fun_xs(tree_tot, tree_bkg, tree_sig, 110, 40, 130, mm_inv_mass, x_mm_inv_mass);
+    // string mm_inv_mass = "mm_inv_mass";
+    // string x_mm_inv_mass = "#mu#mu inv mass(GeV)";
+    // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 110, 40, 130, mm_inv_mass, x_mm_inv_mass);
 
-    string ee_pt = "ee_pt";
-    string x_ee_pt = "ee p_{T}(GeV)";
-    draw_fun_xs(tree_tot, tree_bkg, tree_sig, 100, 0, 500, ee_pt, x_ee_pt);
+    // string ee_pt = "ee_pt";
+    // string x_ee_pt = "ee p_{T}(GeV)";
+    // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 100, 0, 500, ee_pt, x_ee_pt);
 
-    string mm_pt = "mm_pt";
-    string x_mm_pt = "#mu#mu p_{T}(GeV)";
-    draw_fun_xs(tree_tot, tree_bkg, tree_sig, 100, 0, 500, mm_pt, x_mm_pt);
+    // string mm_pt = "mm_pt";
+    // string x_mm_pt = "#mu#mu p_{T}(GeV)";
+    // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 100, 0, 500, mm_pt, x_mm_pt);
 
-    string delta_eta_e = "delta_eta_e";
-    string x_delta_eta_e = "#Delta #eta_{ee}";
-    draw_fun_xs(tree_tot, tree_bkg, tree_sig, 50, 0, 4, delta_eta_e, x_delta_eta_e);
+    // string delta_eta_e = "delta_eta_e";
+    // string x_delta_eta_e = "#Delta #eta_{ee}";
+    // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 50, 0, 4, delta_eta_e, x_delta_eta_e);
 
-    string delta_eta_m = "delta_eta_m";
-    string x_delta_eta_m = "#Delta #eta_{#mu#mu}";
-    draw_fun_xs(tree_tot, tree_bkg, tree_sig, 50, 0, 4, delta_eta_m, x_delta_eta_m);
+    // string delta_eta_m = "delta_eta_m";
+    // string x_delta_eta_m = "#Delta #eta_{#mu#mu}";
+    // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 50, 0, 4, delta_eta_m, x_delta_eta_m);
 }

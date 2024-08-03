@@ -34,6 +34,8 @@ class analysis_gg4e(analysis):
         analysis.mknewlf(self, 'e3_phi', 'F')
         analysis.mknewlf(self, 'e3_e', 'F')
 
+        analysis.mknewlf(self, 'inv_mass', 'F')
+
     def get_echarge(self, idx):
         return self.br_electron.At(idx).Charge
     
@@ -53,6 +55,7 @@ class analysis_gg4e(analysis):
             e1_v4 = None
             e2_v4 = None
             e3_v4 = None
+            tot_v4 = None
 
             #truth filter for gg4e
             if 'gg4e' in self.procnm:
@@ -68,7 +71,7 @@ class analysis_gg4e(analysis):
                 _e = self.br_electron.At(_ie)
                 if _e.PT > 7 and abs(_e.eta) < 2.5:
                     _v = R.TLorentzVector()
-                    -v.SetPtEtaPhiM(_e.PT, _e.Eta, _e.Phi, self.ELE_MASS)
+                    _v.SetPtEtaPhiM(_e.PT, _e.Eta, _e.Phi, self.ELE_MASS)
                     lt_electron_sel.append((_v, _ie))
 
             analysis.sort_pt(self, lt_electron_sel)
@@ -84,6 +87,8 @@ class analysis_gg4e(analysis):
                 continue
 
             analysis.fill_cut(self, '4 electrons')
+
+            tot_v4 = e0_v4 + e1_v4 + e2_v4 + e3_v4
 
             self.outlf['e0_pt'][0] = e0_v4.Pt()
             self.outlf['e0_eta'][0] = e0_v4.Eta()
@@ -101,6 +106,8 @@ class analysis_gg4e(analysis):
             self.outlf['e3_eta'][0] = e3_v4.Eta()
             self.outlf['e3_phi'][0] = e3_v4.Phi()
             self.outlf['e3_e'][0] = e3_v4.E()
+
+            self.outlf['inv_mass'][0] = tot_v4.M()
 
             genweight = self.br_event.At(0)
             self.outlf['weight'][0] = evt_weight * genweight.Weight

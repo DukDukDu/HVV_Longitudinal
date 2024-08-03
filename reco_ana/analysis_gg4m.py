@@ -17,22 +17,24 @@ class analysis_gg4m(analysis):
     def begin(self):
         analysis.begin(self)
         #add new leaves for gg2e2m
-        analysis.mknewlf(self, 'm0_pt', 'F')
-        analysis.mknewlf(self, 'm0_eta', 'F')
-        analysis.mknewlf(self, 'm0_phi', 'F')
-        analysis.mknewlf(self, 'm0_e', 'F')
-        analysis.mknewlf(self, 'm1_pt', 'F')
-        analysis.mknewlf(self, 'm1_eta', 'F')
-        analysis.mknewlf(self, 'm1_phi', 'F')
-        analysis.mknewlf(self, 'm1_e', 'F')
-        analysis.mknewlf(self, 'm2_pt', 'F')
-        analysis.mknewlf(self, 'm2_eta', 'F')
-        analysis.mknewlf(self, 'm2_phi', 'F')
-        analysis.mknewlf(self, 'm2_e', 'F')
-        analysis.mknewlf(self, 'm3_pt', 'F')
-        analysis.mknewlf(self, 'm3_eta', 'F')
-        analysis.mknewlf(self, 'm3_phi', 'F')
-        analysis.mknewlf(self, 'm3_e', 'F')
+        analysis.mknewlf(self, 'mu0_pt', 'F')
+        analysis.mknewlf(self, 'mu0_eta', 'F')
+        analysis.mknewlf(self, 'mu0_phi', 'F')
+        analysis.mknewlf(self, 'mu0_e', 'F')
+        analysis.mknewlf(self, 'mu1_pt', 'F')
+        analysis.mknewlf(self, 'mu1_eta', 'F')
+        analysis.mknewlf(self, 'mu1_phi', 'F')
+        analysis.mknewlf(self, 'mu1_e', 'F')
+        analysis.mknewlf(self, 'mu2_pt', 'F')
+        analysis.mknewlf(self, 'mu2_eta', 'F')
+        analysis.mknewlf(self, 'mu2_phi', 'F')
+        analysis.mknewlf(self, 'mu2_e', 'F')
+        analysis.mknewlf(self, 'mu3_pt', 'F')
+        analysis.mknewlf(self, 'mu3_eta', 'F')
+        analysis.mknewlf(self, 'mu3_phi', 'F')
+        analysis.mknewlf(self, 'mu3_e', 'F')
+
+        analysis.mknewlf(self, 'inv_mass', 'F')
 
     def get_muoncharge(self, idx):
         return self.br_muon.At(idx).Charge
@@ -49,10 +51,11 @@ class analysis_gg4m(analysis):
 
             lt_muon_sel = []
 
-            m0_v4 = None
-            m1_v4 = None
-            m2_v4 = None
-            m3_v4 = None
+            mu0_v4 = None
+            mu1_v4 = None
+            mu2_v4 = None
+            mu3_v4 = None
+            tot_v4 = None
 
             if 'gg4m' in self.procnm:
                 if truth_filter_4m(self.br_genparticles):
@@ -84,6 +87,8 @@ class analysis_gg4m(analysis):
 
             analysis.fill_cut(self, '4 muons')
 
+            tot_v4 = mu0_v4 + mu1_v4 + mu2_v4 + mu3_v4
+
             self.outlf['mu0_pt'][0] = mu0_v4.Pt()
             self.outlf['mu0_eta'][0] = mu0_v4.Eta()
             self.outlf['mu0_phi'][0] = mu0_v4.Phi()
@@ -100,6 +105,8 @@ class analysis_gg4m(analysis):
             self.outlf['mu3_eta'][0] = mu3_v4.Eta()
             self.outlf['mu3_phi'][0] = mu3_v4.Phi()
             self.outlf['mu3_e'][0] = mu3_v4.E()
+
+            self.outlf['inv_mass'][0] = tot_v4.M()
 
             genweight = self.br_event.At(0)
             self.outlf['weight'][0] = evt_weight * genweight.Weight
