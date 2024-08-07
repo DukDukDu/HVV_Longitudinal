@@ -32,7 +32,8 @@ if __name__ == "__main__":
             data["LHEMotherE"][i], 
             False
         )
-        
+        # mothers = Mela.SimpleParticleCollection_t()
+
         daughters = Mela.SimpleParticleCollection_t(
             data["LHEDaughterId"][i], 
             data["LHEDaughterPt"][i], 
@@ -42,7 +43,7 @@ if __name__ == "__main__":
             True
         )
         
-        print(data["LHEDaughterId"][i])
+        print(data["LHEDaughterPt"][i])
 
         associated = Mela.SimpleParticleCollection_t(
             data["LHEAssociatedParticleId"][i], 
@@ -53,12 +54,16 @@ if __name__ == "__main__":
             True
         )
 
+        # associated = Mela.SimpleParticleCollection_t()
+
         #SET UP MELA ATTRIBUTES HERE!
         m.ghz1 = [1, 0]
         m.setProcess(Mela.Process.HSMHiggs, Mela.MatrixElement.MCFM, Mela.Production.JJEW)
         m.setInputEvent(daughters, associated, mothers, True)
         prob = m.computeProdDecP(False)
         probs.append(prob)
+
+        print(prob)
 
         f.write(f"{prob:.3e}\n")
 

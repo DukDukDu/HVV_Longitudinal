@@ -1,22 +1,25 @@
 import ROOT as R
-from util import truth_filter_4m
+from util import lep_pair
 from array import array
 import anaconfig
 import sampleconfig
 from analysis import analysis
 import math
 import itertools
+import Mela
 
 class analysis_gg4m(analysis):
+    mela = Mela.Mela(13, 125, Mela.VerbosityLevel.SILENT)
 
     def __init__(self, ch, sampleID, nevent, basic_weight, outfnm):
-        analysis.__init__(self, ch, sampleID, nevent, basic_weight, outfnm)
-        self.MUON_MASS = 0.1056583745  # PDG 2016 MOHR
-        self.ELE_MASS = 0.0005109989461 # PDG 2016 MOHR
+        super().__init__(ch, sampleID, nevent, basic_weight, outfnm)
+        self.MUON_MASS = 0.1056583755  # PDG 2023 MOHR
+        self.ELE_MASS = 0.00051099895000 # PDG 2023 MOHR
+        self.Z_MASS = 91.1876
 
     def begin(self):
-        analysis.begin(self)
-        #add new leaves for gg2e2m
+        super().begin()
+        # add new leaves for gg2e2m
         analysis.mknewlf(self, 'mu0_pt', 'F')
         analysis.mknewlf(self, 'mu0_eta', 'F')
         analysis.mknewlf(self, 'mu0_phi', 'F')
@@ -33,48 +36,75 @@ class analysis_gg4m(analysis):
         analysis.mknewlf(self, 'mu3_eta', 'F')
         analysis.mknewlf(self, 'mu3_phi', 'F')
         analysis.mknewlf(self, 'mu3_e', 'F')
-
+        
+        analysis.mknewlf('inv_mass', 'F')
         analysis.mknewlf(self, 'inv_mass', 'F')
+        analysis.mknewlf(self, 'mumu1_inv_mass', 'F')
+        analysis.mknewlf(self, 'mumu2_inv_mass', 'F')
+        analysis.mknewlf(self, 'mumu1_pt', 'F')
+        analysis.mknewlf(self, 'mumu2_pt', 'F')
+        analysis.mknewlf(self, 'delta_mumu1_eta', 'F')
+        analysis.mknewlf(self, 'delta_mumu2_eta', 'F')
+        analysis.mknewlf(self, 'delta_mumu1_phi', 'F')
+        analysis.mknewlf(self, 'delta_mumu2_phi', 'F')
+
+        analysis.mknewlf(self, 'prob', 'F')
 
     def get_muoncharge(self, idx):
         return self.br_muon.At(idx).Charge
 
-    def loof(self):
-
-        for i in range(0, self.nevt):
+    def loop(self):
+        for i in range(self.nevt):
             self.reader.ReadEntry(i)
-            analysis.fill_cut(self, 'No cut')
+            self.fill_cut('No cut')
 
-            analysis.fill_dummy(self)
+            self.fill_dummy()
 
             evt_weight = self.weight
 
             lt_muon_sel = []
+            lt_z1 = []
+            lt_z2 = []
 
             mu0_v4 = None
             mu1_v4 = None
             mu2_v4 = None
             mu3_v4 = None
+            mumu1_v4 = None
+            mumu2_v4 = None
             tot_v4 = None
 
-            if 'gg4m' in self.procnm:
-                if truth_filter_4m(self.br_genparticles):
-                    pass
-                else:
-                    continue
+            pdgid = []
+            daughtersPt = []
+            daughtersEta = []
+            daughtersPhi = []
+            daughtersMass = []
 
-            analysis.fill_cut(self, 'truth filter')
+            mz11 =0 
+            mz12 = 0
+            mz21 = 0
+            mz22 = 0
+            mz31 = 0
+            mz32 = 0
 
-            self.count_rawnb +=1
+            self.count_rawnb += 1
 
-            for _imu in range(0, self.br_muon.GetEntries()):
+            for _imu in range(self.br_muon.GetEntries()):
                 _mu = self.br_muon.At(_imu)
                 if _mu.PT > 5 and abs(_mu.Eta) < 2.4:
                     _v = R.TLorentzVector()
                     _v.SetPtEtaPhiM(_mu.PT, _mu.Eta, _mu.Phi, self.MUON_MASS)
                     lt_muon_sel.append((_v, _imu))
+                    daughtersPt.append(_mu.PT)
+                    daughtersEta.append(_mu.Eta)
+                    daughtersPhi.append(_mu.Phi)
+                    daughtersMass.append(self.MUON_MASS)
+                    if self.get_muoncharge(_imu) < 0:
+                        pdgid.append(13)
+                    else:
+                        pdgid.append(-13)
 
-            analysis.sort_pt(self, lt_muon_sel)
+            self.sort_pt(lt_muon_sel)
 
             if len(lt_muon_sel) == 4:
                 mu0_v4 = lt_muon_sel[0][0]
@@ -82,10 +112,35 @@ class analysis_gg4m(analysis):
                 mu2_v4 = lt_muon_sel[2][0]
                 mu3_v4 = lt_muon_sel[3][0]
 
+                if self.get_muoncharge(lt_muon_sel[0][1])*self.get_muoncharge(lt_muon_sel[1][1]) < 0:
+                    mz11 = (mu0_v4 + mu1_v4).M()
+                    mz12 = (mu2_v4 + mu3_v4).M()
+
+                if self.get_muoncharge(lt_muon_sel[0][1])*self.get_muoncharge(lt_muon_sel[2][1]) < 0:
+                    mz21 = (mu0_v4 + mu2_v4).M()
+                    mz22 = (mu1_v4 + mu3_v4).M()
+
+                if self.get_muoncharge(lt_muon_sel[0][1])*self.get_muoncharge(lt_muon_sel[3][1]) < 0:
+                    mz31 = (mu0_v4 + mu3_v4).M()
+                    mz32 = (mu1_v4 + mu2_v4).M()
+
+                dl1 = np.sqrt((self.Z_MASS - mz11)**2 + (self.Z_MASS - mz12)**2)
+                dl2 = np.sqrt((self.Z_MASS - mz21)**2 + (self.Z_MASS - mz22)**2)
+                dl3 = np.sqrt((self.Z_MASS - mz31)**2 + (self.Z_MASS - mz32)**2)
+
+                mumu1_v4, mumu2_v4, lt_z1, lt_z2 = lep_pair(dl1, dl2, dl3, mu0_v4, mu1_v4, mu2_v4, mu3_v4)
             else:
                 continue
 
-            analysis.fill_cut(self, '4 muons')
+            self.fill_cut('4 muons')
+
+            mothers = None
+            associated = None
+            daughters = Mela.SimpleParticleCollection_t(pdgid, daughtersPt, daughtersEta, daughtersPhi, daughtersMass, True)
+            self.mela.ghz1 = [1, 0]
+            self.mela.setProcess(Mela.Process.HSMHiggs, Mela.MatrixElement.JHUGen, Mela.Production.ZZGG)
+            self.mela.setInputEvent(daughters, associated, mothers, True)
+            prob = self.mela.computeP(False)
 
             tot_v4 = mu0_v4 + mu1_v4 + mu2_v4 + mu3_v4
 
@@ -107,6 +162,16 @@ class analysis_gg4m(analysis):
             self.outlf['mu3_e'][0] = mu3_v4.E()
 
             self.outlf['inv_mass'][0] = tot_v4.M()
+            self.outlf['mumu1_inv_mass'][0] = mumu1_v4.M()
+            self.outlf['mumu2_inv_mass'][0] = mumu2_v4.M()
+            self.outlf['mumu1_pt'][0] = mumu1_v4.Pt()
+            self.outlf['mumu2_pt'][0] = mumu2_v4.Pt()
+            self.outlf['delta_mumu1_eta'][0] = abs(lt_z1[0][0].Eta()-lt_z1[1][0].Eta())
+            self.outlf['delta_mumu2_eta'][0] = abs(lt_z2[0][0].Eta()-lt_z2[1][0].Eta())
+            self.outlf['delta_mumu1_phi'][0] = abs(lt_z1[0][0].Phi()-lt_z1[1][0].Phi())
+            self.outlf['delta_mumu2_phi'][0] = abs(lt_z2[0][0].Phi()-lt_z2[1][0].Phi())
+
+            self.outlf['prob'][0] = prob
 
             genweight = self.br_event.At(0)
             self.outlf['weight'][0] = evt_weight * genweight.Weight
@@ -115,4 +180,4 @@ class analysis_gg4m(analysis):
             self.outtree.Fill()
 
     def end(self):
-        analysis.end(self)
+        super().end()

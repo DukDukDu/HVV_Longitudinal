@@ -3,8 +3,7 @@
 jobdir=$1
 procnm=$2
 filelst=$3
-anatype=$4
-rootdir=$5
+rootdir=$4
 
 pwd
 who
@@ -29,8 +28,8 @@ python -c 'import os; print("HOSTNAME", os.getenv("HOSTNAME")); print(sorted(os.
 echo
 
 echo 'start the run'
-echo "python $rootdir/main.py $procnm $filelst reco.root $anatype --condor"
-python $rootdir/main.py $procnm $filelst reco.root $anatype --condor > output.log
+echo "python $rootdir/main.py $procnm $filelst reco.root --condor"
+python $rootdir/main.py $procnm $filelst reco.root --condor > output.log
 
 echo 'end of the run'
 echo

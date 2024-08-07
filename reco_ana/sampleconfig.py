@@ -1,16 +1,5 @@
 import os
 
-# ihep_path = '/publicfs/cms/user/mingxuanzhang/sample/'
-# pku_path = '/data/pubfs/mingxuanzhang/sample/'
-# # [os.getenv] local works but not on pku condor
-# data_path = './data' if os.getenv('LOCAL') else pku_path
-# # [/etc/hostname]
-# _f = open('/etc/hostname')
-# for _l in _f.readlines():
-#     if 'ihep.ac.cn' in _l:
-#         data_path = ihep_path
-#         break
-
 data_path = '/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample'
 
 Lumi = 300  # fb^-1

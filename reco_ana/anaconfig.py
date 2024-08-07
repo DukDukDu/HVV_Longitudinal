@@ -7,11 +7,11 @@ class map(dict):
         super(map, self).__init__(*args, **kwargs)
         for arg in args:
             if isinstance(arg, dict):
-                for k, v in arg.iteritems():
+                for k, v in arg.items():  # Use items() instead of iteritems()
                     self[k] = v
 
         if kwargs:
-            for k, v in kwargs.iteritems():
+            for k, v in kwargs.items():  # Use items() instead of iteritems()
                 self[k] = v
 
     def __getattr__(self, attr):

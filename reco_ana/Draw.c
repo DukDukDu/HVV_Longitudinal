@@ -2,6 +2,9 @@ void draw_fun(TTree *tree_tot, TTree *tree_bkg, TTree *tree_sig, double nbin, do
 
     TCanvas *c1 = new TCanvas;
 
+    //c1->SetLogx();
+    //c1->SetLogy();
+
     string pathpng = "./pic/gg2e2m/";
     string png = ".png";
     string result = pathpng + name + png;
@@ -34,6 +37,7 @@ void draw_fun(TTree *tree_tot, TTree *tree_bkg, TTree *tree_sig, double nbin, do
     h1->GetXaxis()->SetTitle(name_x);
     h1->GetYaxis()->SetTitle("Density");
     h1->SetLineColor(kBlack);
+    h1->SetMaximum(0.08);
     h1->Draw("hist");
     h2->Scale(1/h2->Integral());
     h2->SetLineColor(kRed);
@@ -131,9 +135,15 @@ void Draw(){
     double gg2e2m_bkg_xs = 1.74;
     double gg2e2m_sig_xs = 0.09585;
     
-    string inv_mass = "e0_pt + e1_pt + mu0_pt + mu1_pt";
-    string x_inv_mass = "tot pt(GeV)";
-    draw_fun(tree_tot, tree_bkg, tree_sig, 100, 0, 1000, inv_mass, x_inv_mass);
+    // string inv_mass = "inv_mass";
+    // string x_inv_mass = "inv mass(GeV)";
+    // draw_fun(tree_tot, tree_bkg, tree_sig, 100, 0, 1000, inv_mass, x_inv_mass);
+
+    string prob = "D_value";
+    string x_prob = "D_value";
+    draw_fun(tree_tot, tree_bkg, tree_sig, 50, 0, 0.7, prob, x_prob);
+    //draw_fun_xs(tree_tot, tree_bkg, tree_sig, 50, 0.8, 1, prob, x_prob);
+
 
     // string ee_inv_mass = "ee_inv_mass";
     // string x_ee_inv_mass = "ee inv mass(GeV)";
@@ -151,11 +161,19 @@ void Draw(){
     // string x_mm_pt = "#mu#mu p_{T}(GeV)";
     // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 100, 0, 500, mm_pt, x_mm_pt);
 
-    // string delta_eta_e = "delta_eta_e";
-    // string x_delta_eta_e = "#Delta #eta_{ee}";
-    // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 50, 0, 4, delta_eta_e, x_delta_eta_e);
+    string delta_eta_e = "delta_eta_e";
+    string x_delta_eta_e = "#Delta #eta_{ee}";
+    draw_fun(tree_tot, tree_bkg, tree_sig, 50, 0, 4, delta_eta_e, x_delta_eta_e);
 
-    // string delta_eta_m = "delta_eta_m";
-    // string x_delta_eta_m = "#Delta #eta_{#mu#mu}";
-    // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 50, 0, 4, delta_eta_m, x_delta_eta_m);
+    string delta_eta_m = "delta_eta_m";
+    string x_delta_eta_m = "#Delta #eta_{#mu#mu}";
+    draw_fun(tree_tot, tree_bkg, tree_sig, 50, 0, 4, delta_eta_m, x_delta_eta_m);
+
+    string delta_phi_m = "delta_phi_m";
+    string x_delta_phi_m = "#Delta #phi_{#mu#mu}";
+    draw_fun(tree_tot, tree_bkg, tree_sig, 60, 0, 6, delta_phi_m, x_delta_phi_m);
+
+    string delta_phi_e = "delta_phi_e";
+    string x_delta_phi_e = "#Delta #phi_{ee}";
+    draw_fun(tree_tot, tree_bkg, tree_sig, 60, 0, 6, delta_phi_e, x_delta_phi_e);
 }

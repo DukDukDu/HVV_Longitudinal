@@ -1,24 +1,19 @@
 import os
 import ROOT
 import math
-import imp
+import importlib.util
 import sys
 
 def truth_filter_2e2m(genparticles):
     nbe = 0
     nbm = 0
-    lis = []
     for particle in genparticles:
-
-        lis.append(particle.PID)
         if abs(particle.PID) == 11:
-            nbe +=1
+            nbe += 1
         if abs(particle.PID) == 13:
-            nbm +=1
-        
-    #print('000000000000000000000000000000000')
-    #print("{0}, {1}".format(nbe, nbm))
-    if nbe >= 2 and nbm >= 2 :
+            nbm += 1
+    
+    if nbe >= 2 and nbm >= 2:
         return True
     return False
 
@@ -28,8 +23,7 @@ def truth_filter_zz_2e2m(genparticles):
     for particle in genparticles:
         if abs(particle.PID) == 11 and abs(genparticles[particle.M1].PID) == 23:
             nbe += 1
-
-        if abs(particle.PID) == 11 and abs(genparticles[particle.M1].PID) == 23:
+        if abs(particle.PID) == 13 and abs(genparticles[particle.M1].PID) == 23:
             nbm += 1
 
     if nbe == 2 and nbm == 2:
@@ -40,7 +34,7 @@ def truth_filter_4e(genparticles):
     nbe = 0
     for particle in genparticles:
         if abs(particle.PID) == 11:
-            nbe +=1
+            nbe += 1
 
     if nbe >= 4:
         return True
@@ -56,21 +50,19 @@ def truth_filter_4m(genparticles):
         return True
     return False
 
-
-# significane s/sqrt(b)
+# significance s/sqrt(b)
 def sig_sob(s, b):
     if b <= 0:
         return 0
     else:
         return s / math.sqrt(b)
 
-
 # significance new sob
 def newsig_sob(s, b):
     if b == 0:
         return 0
     else:
-        # Tylor series expansion
+        # Taylor series expansion
         x = s / b
         y = (1 + x) * math.log(1 + x) - x
         if y < 0:
@@ -80,26 +72,69 @@ def newsig_sob(s, b):
 
 # dynamic import
 def dynamic_imp(name, class_name):
-
-    # find_module() method is used
-    # to find the module and return
-    # its description and path
     try:
-        fp, path, desc = imp.find_module(name)
-    except ImportError:
-        print("module not found: " + name)
-
-    # load_modules loads the module
-    # dynamically and takes the filepath
-    # module and description as parameter
-    try:
-        example_package = imp.load_module(name, fp, path, desc)
-    except Exception as e:
+        spec = importlib.util.find_spec(name)
+        if spec is None:
+            print("Module not found: " + name)
+            return None
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+    except ImportError as e:
         print(e)
+        return None
 
-    #try:
-    #    myclass = imp.load_module("% s.% s" % (name,class_name), fp, path, desc)
-    #except Exception as e:
-    #    print(e)
+def lep_pair(dl1, dl2, dl3, l0_v4, l1_v4, l2_v4, l3_v4):
+    ll1_v4 = None
+    ll2_v4 = None
+    lt_z1 = []
+    lt_z2 = []
+    if dl1 < dl2 :
+        if dl1 < dl3:
+            if (l0_v4 + l1_v4).Pt() > (l2_v4 + l3_v4).Pt():
+                ll1_v4 = l0_v4 + l1_v4
+                ll2_v4 = l2_v4 + l3_v4
+                lt_z1.append((l0_v4, 0)), lt_z1.append((l1_v4, 1))
+                lt_z2.append((l2_v4, 0)), lt_z2.append((l3_v4, 1))
+            else:
+                ll1_v4 = l2_v4 + l3_v4
+                ll2_v4 = l0_v4 + l1_v4
+                lt_z1.append((l2_v4, 0)), lt_z1.append((l3_v4, 1))
+                lt_z2.append((l0_v4, 0)), lt_z2.append((l1_v4, 1))
+        else:
+            if (l0_v4 + l3_v4).Pt() > (l1_v4 + l2_v4).Pt():
+                ll1_v4 = l0_v4 + l3_v4
+                ll2_v4 = l1_v4 + l2_v4
+                lt_z1.append((l0_v4, 0)), lt_z1.append((l3_v4, 1))
+                lt_z2.append((l1_v4, 0)), lt_z2.append((l2_v4, 1))
+            else:
+                ll1_v4 = l1_v4 + l2_v4
+                ll2_v4 = l0_v4 + l3_v4
+                lt_z1.append((l1_v4, 0)), lt_z1.append((l2_v4, 1))
+                lt_z2.append((l0_v4, 0)), lt_z2.append((l3_v4, 1))
+    else:
+        if dl2 < dl3:
+            if (l0_v4 + l2_v4).Pt() > (l1_v4 + l3_v4).Pt():
+                ll1_v4 = l0_v4 + l2_v4
+                ll2_v4 = l1_v4 + l3_v4
+                lt_z1.append((l0_v4, 0)), lt_z1.append((l2_v4, 1))
+                lt_z2.append((l1_v4, 0)), lt_z2.append((l3_v4, 1))
+            else:
+                ll1_v4 = l1_v4 + l3_v4
+                ll2_v4 = l0_v4 + l2_v4
+                lt_z1.append((l1_v4, 0)), lt_z1.append((l3_v4, 1))
+                lt_z2.append((l0_v4, 0)), lt_z2.append((l2_v4, 1))
+        else:
+            if (l0_v4 + l3_v4).Pt() > (l1_v4 + l2_v4).Pt():
+                ll1_v4 = l0_v4 + l3_v4
+                ll2_v4 = l1_v4 + l2_v4
+                lt_z1.append((l0_v4, 0)), lt_z1.append((l3_v4, 1))
+                lt_z2.append((l1_v4, 0)), lt_z2.append((l2_v4, 1))
+            else:
+                ll1_v4 = l1_v4 + l2_v4
+                ll2_v4 = l0_v4 + l3_v4
+                lt_z1.append((l1_v4, 0)), lt_z1.append((l2_v4, 1))
+                lt_z2.append((l0_v4, 0)), lt_z2.append((l3_v4, 1))
 
-    return example_package  #, myclass
+    return ll1_v4, ll2_v4, lt_z1, lt_z2
+

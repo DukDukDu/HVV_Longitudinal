@@ -5,25 +5,24 @@ import sampleconfig
 
 class analysis(object):
   
-    def __init__(self, ch, sampleID, nevent, basic_weight, outfnm ):
+    def __init__(self, ch, sampleID, nevent, basic_weight, outfnm):
         self.chain = ch
-        self.reader= R.ExRootTreeReader( self.chain )
-        #     self.nevt = self.reader.GetEntries()
+        self.reader = R.ExRootTreeReader(self.chain)
         self.procid = sampleID
         self.procnm = sampleconfig.id2proc_dict[sampleID]
         self.nevt = nevent
         self.weight = basic_weight
 
-        # outputfile
-        self.outfile = R.TFile(outfnm,'RECREATE')
-        self.outtree = 0
-        self.outlf = dict()
+        # output file
+        self.outfile = R.TFile(outfnm, 'RECREATE')
+        self.outtree = None
+        self.outlf = {}
 
-        # connters
-        self.count_rawnb = 0 # int count raw number of events after truth filter if any
+        # counters
+        self.count_rawnb = 0  # int count raw number of events after truth filter if any
 
         # cutflow histogram
-        self.cutflow_hist = R.TH1F('cutflow','Cutflow',50,0,50)
+        self.cutflow_hist = R.TH1F('cutflow', 'Cutflow', 50, 0, 50)
         self.cutflow_assigned = 0
 
     def fill_cut(self, cutnm):
@@ -31,23 +30,23 @@ class analysis(object):
         if _ibin == -1:
             self.cutflow_assigned += 1
             self.cutflow_hist.GetXaxis().SetBinLabel(self.cutflow_assigned, cutnm)
-            self.cutflow_hist.SetBinContent( self.cutflow_assigned, 1 )
+            self.cutflow_hist.SetBinContent(self.cutflow_assigned, 1)
         else:
-            self.cutflow_hist.SetBinContent( _ibin, self.cutflow_hist.GetBinContent(_ibin) + 1 )
+            self.cutflow_hist.SetBinContent(_ibin, self.cutflow_hist.GetBinContent(_ibin) + 1)
         
     def mknewlf(self, varnm, vartype):
         # mknewlf("new_v", "F")
         # types: i, I, F
         # TODO add support for more types!!!
         if vartype == 'F':
-            self.outlf[varnm] = array( 'f', [0] )
+            self.outlf[varnm] = array('f', [0])
         elif vartype == 'I':
-            self.outlf[varnm] = array( 'i', [0] )
+            self.outlf[varnm] = array('i', [0])
 
-        self.outtree.Branch(varnm, self.outlf[varnm], varnm+'/'+vartype)
+        self.outtree.Branch(varnm, self.outlf[varnm], f'{varnm}/{vartype}')
 
     def fill_dummy(self):
-        # fill dummy numbers to all declared leaevs
+        # fill dummy numbers to all declared leaves
         for _lnm in self.outlf.keys():
             self.outlf[_lnm][0] = -999
         
@@ -66,18 +65,18 @@ class analysis(object):
         # NOTE: copying the old tree currently does not work
         # possible reasons: the copied leaves are not loaded as TreeReader do not load all br to accelerate
         # copy the whole input tree (TODO only copy some leaves not the whole)
-        #self.chain.SetBranchStatus("*", 0) # de-activate all leaves of the input tree
-        #self.chain.SetBranchStatus("Muon_size", 1) # active some leaves of the input tree
-        #self.outtree = self.chain.CloneTree(0) # clone the structure
-        #self.outtree.SetName('Events')
-        #self.chain.SetBranchStatus("*", 1) # recover the whole input tree
+        # self.chain.SetBranchStatus("*", 0)  # de-activate all leaves of the input tree
+        # self.chain.SetBranchStatus("Muon_size", 1)  # active some leaves of the input tree
+        # self.outtree = self.chain.CloneTree(0)  # clone the structure
+        # self.outtree.SetName('Events')
+        # self.chain.SetBranchStatus("*", 1)  # recover the whole input tree
         # 
         # Thus, create new tree atm
-        self.outtree = R.TTree('Events','Events')
+        self.outtree = R.TTree('Events', 'Events')
 
         # add new leaves
-        self.mknewlf( 'weight', 'F' )
-        self.mknewlf( 'dsid', 'I' )
+        self.mknewlf('weight', 'F')
+        self.mknewlf('dsid', 'I')
 
         # channel specifics go into derived classes
 
@@ -86,8 +85,8 @@ class analysis(object):
         pass
 
     def end(self):
-        print('Run over {} events after truth filter if any'.format(self.count_rawnb))
-        print('Total nb of evt loops: {}'.format(self.nevt))
+        print(f'Run over {self.count_rawnb} events after truth filter if any')
+        print(f'Total nb of evt loops: {self.nevt}')
 
         # save trees histograms
         self.outfile.Write()
@@ -98,4 +97,7 @@ class analysis(object):
         # lt_v4idx is [ (v4, idx), ... ]
         # v4 is the lorentzvector of the particle
         # idx is the index of the particle in the original array from the input
-        lt_v4idx.sort(key=lambda pi:pi[0].Pt(), reverse=True)
+        lt_v4idx.sort(key=lambda pi: pi[0].Pt(), reverse=True)
+
+    def sort_dl(self, lt_dl_v4_kin):
+        lt_dl_v4_kin.sort(key=lambda pi: pi[0], reverse=False)

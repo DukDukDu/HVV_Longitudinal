@@ -1,18 +1,19 @@
 import ROOT as R
-from util import truth_filter_2e2m
 from array import array
 import anaconfig
 import sampleconfig
 from analysis import analysis
 import math
 import itertools
+import Mela 
 
 class analysis_gg2e2m(analysis):
+    mela = Mela.Mela(13, 125, Mela.VerbosityLevel.SILENT)
 
     def __init__(self, ch, sampleID, nevent, basic_weight, outfnm):
         analysis.__init__(self, ch, sampleID, nevent, basic_weight, outfnm)
-        self.MUON_MASS = 0.1056583745  # PDG 2016 MOHR
-        self.ELE_MASS = 0.0005109989461 # PDG 2016 MOHR
+        self.MUON_MASS = 0.1056583755  # PDG 2023 MOHR
+        self.ELE_MASS = 0.00051099895000 # PDG 2023 MOHR
 
     def begin(self):
         analysis.begin(self)
@@ -42,6 +43,12 @@ class analysis_gg2e2m(analysis):
         analysis.mknewlf( self, 'mm_pt', 'F')
         analysis.mknewlf( self, 'delta_eta_e', 'F')
         analysis.mknewlf( self, 'delta_eta_m', 'F')
+        analysis.mknewlf( self, 'delta_phi_e', 'F')
+        analysis.mknewlf( self, 'delta_phi_m', 'F')
+
+        analysis.mknewlf( self, 'probsig', 'F')
+        analysis.mknewlf( self, 'probbkg', 'F')
+        analysis.mknewlf( self, 'D_value', 'F')
 
     def get_muoncharge(self, idx):
         return self.br_muon.At(idx).Charge
@@ -61,6 +68,11 @@ class analysis_gg2e2m(analysis):
 
             lt_electron_sel = []
             lt_muon_sel = []
+            pdgid = []
+            daughtersPt = []
+            daughtersEta = []
+            daughtersPhi = []
+            daughtersMass = []
 
             e0_v4 = None
             e1_v4 = None
@@ -69,14 +81,6 @@ class analysis_gg2e2m(analysis):
             ee_v4 = None
             mm_v4 = None
             tot_v4 = None
-            
-            #truth filter for gg2e2m
-            if 'gg2e2m' in self.procnm:
-                if truth_filter_2e2m(self.br_genparticles):
-                    pass
-                else:
-                    continue
-            analysis.fill_cut(self, 'truth filter')
 
             self.count_rawnb +=1
 
@@ -86,6 +90,12 @@ class analysis_gg2e2m(analysis):
                     _v = R.TLorentzVector()
                     _v.SetPtEtaPhiM(_e.PT, _e.Eta, _e.Phi, self.ELE_MASS)
                     lt_electron_sel.append((_v, _ie))
+                    daughtersPt.append(_e.PT), daughtersEta.append(_e.Eta)
+                    daughtersPhi.append(_e.Phi), daughtersMass.append(self.ELE_MASS)
+                    if self.get_echarge(_ie) > 0:
+                        pdgid.append(-11)
+                    else:
+                        pdgid.append(11)
 
             analysis.sort_pt(self, lt_electron_sel)
 
@@ -95,6 +105,12 @@ class analysis_gg2e2m(analysis):
                     _v = R.TLorentzVector()
                     _v.SetPtEtaPhiM(_mu.PT, _mu.Eta, _mu.Phi, self.MUON_MASS)
                     lt_muon_sel.append((_v, _imu))
+                    daughtersPt.append(_mu.PT), daughtersEta.append(_mu.Eta)
+                    daughtersPhi.append(_mu.Phi), daughtersMass.append(self.MUON_MASS)
+                    if self.get_muoncharge(_imu) > 0:
+                        pdgid.append(-13)
+                    else:
+                        pdgid.append(13)
 
             analysis.sort_pt(self, lt_muon_sel)
 
@@ -102,6 +118,7 @@ class analysis_gg2e2m(analysis):
                 if self.get_echarge(lt_electron_sel[0][1])*self.get_echarge(lt_electron_sel[1][1]) < 0:
                     e0_v4 = lt_electron_sel[0][0]
                     e1_v4 = lt_electron_sel[1][0]
+                    #print(lt_electron_sel)
 
                 else:
                     continue
@@ -122,6 +139,20 @@ class analysis_gg2e2m(analysis):
                 continue
 
             analysis.fill_cut(self, '2 oppo sign muon')
+            
+            daughters = Mela.SimpleParticleCollection_t(pdgid, daughtersPt, daughtersEta, daughtersPhi, daughtersMass, True)
+            mothers = None
+            associated = None
+            # print(pdgid)
+            # print(daughtersPt)
+            
+            self.mela.setInputEvent(daughters, associated, mothers, True)
+            
+            self.mela.setProcess(Mela.Process.HSMHiggs, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)
+            probsig = self.mela.computeP(False)
+            
+            self.mela.setProcess(Mela.Process.bkgZZ, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)
+            probbkg = self.mela.computeP(False)
 
             ee_v4 = e0_v4 + e1_v4
             mm_v4 = mu0_v4 + mu1_v4
@@ -152,6 +183,12 @@ class analysis_gg2e2m(analysis):
             self.outlf['mm_pt'][0] = mm_v4.Pt()
             self.outlf['delta_eta_e'][0] = abs(e0_v4.Eta() - e1_v4.Eta())
             self.outlf['delta_eta_m'][0] = abs(mu0_v4.Eta() - mu1_v4.Eta())
+            self.outlf['delta_phi_e'][0] = abs(e0_v4.Phi() - e1_v4.Phi())
+            self.outlf['delta_phi_m'][0] = abs(mu0_v4.Phi() - mu1_v4.Phi())
+
+            self.outlf['probsig'][0] = probsig
+            self.outlf['probbkg'][0] = probbkg
+            self.outlf['D_value'][0] = probsig/(probsig+probbkg)
 
             genweight = self.br_event.At(0)
             self.outlf['weight'][0] = evt_weight * genweight.Weight

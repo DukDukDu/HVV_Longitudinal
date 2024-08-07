@@ -14,8 +14,7 @@ import sample
 ### ### ### ### ### ### 
 runname = sys.argv[1]
 procname = sys.argv[2]
-anatype = sys.argv[3]
-nfileperjob = 3
+nfileperjob = 4
 ### ### ### ### ### ### 
 # end of user inputs #
 ### ### ### ### ### ### 
@@ -45,7 +44,7 @@ for i in range(len(ifilechunks)):
   if os.path.exists(_jobdir):
     print('{0} exists. Please clean them! EXIT'.format(_jobdir))
     exit(1)
-  _cmd = 'hep_sub eachjob.sh -o job/out.{4}-{5}-{6} -e job/err.{4}-{5}-{6} -argu {0} {1} {2} {3} {7}'.format( _jobdir, procname, ','.join(ifiles), anatype, runname, procname, _jobid, rootdir )
+  _cmd = 'hep_sub eachjob.sh -o job/out.{3}-{4}-{5} -e job/err.{3}-{4}-{5} -argu {0} {1} {2} {6}'.format( _jobdir, procname, ','.join(ifiles), runname, procname, _jobid, rootdir )
 
   print('submitting job for {0} ... ... ...'.format(_jobdir))
   print('processing file indices:', ifiles)
