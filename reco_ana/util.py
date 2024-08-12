@@ -84,6 +84,9 @@ def dynamic_imp(name, class_name):
         print(e)
         return None
 
+#This function is used to pair e and anti-e from same Z boson in the 4e final state.
+#Method: Compare the dli i.e. distances between mass points from different pairs and (91, 91),
+#and choose the closest one as the best option.
 def lep_pair(dl1, dl2, dl3, l0_v4, l1_v4, l2_v4, l3_v4):
     ll1_v4 = None
     ll2_v4 = None

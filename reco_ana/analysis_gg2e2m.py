@@ -8,7 +8,7 @@ import itertools
 import Mela 
 
 class analysis_gg2e2m(analysis):
-    mela = Mela.Mela(13, 125, Mela.VerbosityLevel.SILENT)
+    mela = Mela.Mela(13, 125, Mela.VerbosityLevel.SILENT)   #Mela initialization
 
     def __init__(self, ch, sampleID, nevent, basic_weight, outfnm):
         analysis.__init__(self, ch, sampleID, nevent, basic_weight, outfnm)
@@ -90,7 +90,7 @@ class analysis_gg2e2m(analysis):
                     _v = R.TLorentzVector()
                     _v.SetPtEtaPhiM(_e.PT, _e.Eta, _e.Phi, self.ELE_MASS)
                     lt_electron_sel.append((_v, _ie))
-                    daughtersPt.append(_e.PT), daughtersEta.append(_e.Eta)
+                    daughtersPt.append(_e.PT), daughtersEta.append(_e.Eta)  #Save these for Mela calculation
                     daughtersPhi.append(_e.Phi), daughtersMass.append(self.ELE_MASS)
                     if self.get_echarge(_ie) > 0:
                         pdgid.append(-11)
@@ -146,6 +146,7 @@ class analysis_gg2e2m(analysis):
             # print(pdgid)
             # print(daughtersPt)
             
+            #Mela calculating the probability assuming different processes
             self.mela.setInputEvent(daughters, associated, mothers, True)
             
             self.mela.setProcess(Mela.Process.HSMHiggs, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)

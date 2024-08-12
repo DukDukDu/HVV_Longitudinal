@@ -52,8 +52,8 @@ elif 'del' in sys.argv:
 
     print("DELPHES PATH: You have copy {0} root files and then you will merge them..........................".format(j))
 
-    os.system("hadd {0}/total.root {0}/showersimul*.root".format(sample))
-    os.system("rm -f {0}/shower*".format(sample))
+    #os.system("hadd {0}/total.root {0}/showersimul*.root".format(sample))
+    #os.system("rm -f {0}/shower*".format(sample))
 
 else:
     print("!!!!del or mg must be in the sys.argv, PLEASE CHECK YOUR INPUT!!!!")

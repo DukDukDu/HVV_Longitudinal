@@ -7,6 +7,7 @@ from analysis import analysis
 import math
 import itertools
 import Mela
+import numpy as np
 
 class analysis_gg4m(analysis):
     mela = Mela.Mela(13, 125, Mela.VerbosityLevel.SILENT)
@@ -37,7 +38,6 @@ class analysis_gg4m(analysis):
         analysis.mknewlf(self, 'mu3_phi', 'F')
         analysis.mknewlf(self, 'mu3_e', 'F')
         
-        analysis.mknewlf('inv_mass', 'F')
         analysis.mknewlf(self, 'inv_mass', 'F')
         analysis.mknewlf(self, 'mumu1_inv_mass', 'F')
         analysis.mknewlf(self, 'mumu2_inv_mass', 'F')
@@ -48,7 +48,9 @@ class analysis_gg4m(analysis):
         analysis.mknewlf(self, 'delta_mumu1_phi', 'F')
         analysis.mknewlf(self, 'delta_mumu2_phi', 'F')
 
-        analysis.mknewlf(self, 'prob', 'F')
+        analysis.mknewlf(self, 'probsig', 'F')
+        analysis.mknewlf(self, 'probbkg', 'F')
+        analysis.mknewlf(self, 'D_value', 'F')
 
     def get_muoncharge(self, idx):
         return self.br_muon.At(idx).Charge
@@ -137,10 +139,13 @@ class analysis_gg4m(analysis):
             mothers = None
             associated = None
             daughters = Mela.SimpleParticleCollection_t(pdgid, daughtersPt, daughtersEta, daughtersPhi, daughtersMass, True)
-            self.mela.ghz1 = [1, 0]
-            self.mela.setProcess(Mela.Process.HSMHiggs, Mela.MatrixElement.JHUGen, Mela.Production.ZZGG)
+           
             self.mela.setInputEvent(daughters, associated, mothers, True)
-            prob = self.mela.computeP(False)
+            self.mela.setProcess(Mela.Process.HSMHiggs, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)
+            probsig = self.mela.computeP(False)
+
+            self.mela.setProcess(Mela.Process.bkgZZ, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)
+            probbkg = self.mela.computeP(False)
 
             tot_v4 = mu0_v4 + mu1_v4 + mu2_v4 + mu3_v4
 
@@ -171,7 +176,9 @@ class analysis_gg4m(analysis):
             self.outlf['delta_mumu1_phi'][0] = abs(lt_z1[0][0].Phi()-lt_z1[1][0].Phi())
             self.outlf['delta_mumu2_phi'][0] = abs(lt_z2[0][0].Phi()-lt_z2[1][0].Phi())
 
-            self.outlf['prob'][0] = prob
+            self.outlf['probsig'][0] = probsig
+            self.outlf['probbkg'][0] = probbkg
+            self.outlf['D_value'][0] = probsig/(probbkg + probsig)
 
             genweight = self.br_event.At(0)
             self.outlf['weight'][0] = evt_weight * genweight.Weight
