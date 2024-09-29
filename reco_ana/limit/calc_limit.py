@@ -47,7 +47,7 @@ print(f"parameters post unconstrained fit: {unconpars}")
     exp_limits,
     (poi_tests, tests),
 ) = pyhf.infer.intervals.upper_limits.upper_limit(
-    data, model, np.linspace(0, 0.1, 100), level=0.01, return_results=True
+    data, model, np.linspace(0, 0.03, 100), level=0.01, return_results=True
 )
 # new versions only!
 

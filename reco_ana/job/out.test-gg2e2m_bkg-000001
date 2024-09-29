@@ -1,0 +1,19 @@
+/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/handle_code/reco_ana
+Fri 20 Sep 20:33:19 CST 2024
+
+/afs/ihep.ac.cn/users/m/mingxuanzhang
+
+/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/handle_code/reco_ana/job/test-gg2e2m_bkg-000001
+/publicfs/cms/user/mingxuanzhang/miniconda3/envs/myroot3/bin:/publicfs/cms/user/mingxuanzhang/miniconda3/condabin:/cvmfs/common.ihep.ac.cn/software/hepjob/bin:/afs/ihep.ac.cn/users/m/mingxuanzhang/.vscode-server/cli/servers/Stable-ea1445cc7016315d0f5728f8e8b12a45dc0a7286/server/bin/remote-cli:/usr/share/Modules/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/cvmfs/common.ihep.ac.cn/software/cctools:/opt/puppetlabs/bin:/cvmfs/common.ihep.ac.cn/software/cctools:/cvmfs/common.ihep.ac.cn/software/cctools
+lxlogin004.ihep.ac.cn
+
+check env via python
+HOSTNAME lxlogin004.ihep.ac.cn
+['ADDR2LINE', 'APPTAINERENV_LD_LIBRARY_PATH', 'APPTAINERENV_PATH', 'APPTAINER_SHELL', 'AR', 'AS', 'BATCH_SYSTEM', 'BROWSER', 'BUILD', 'CC', 'CC_FOR_BUILD', 'CFLAGS', 'CLING_PREBUILT_MODULE_PATH', 'CLING_STANDARD_PCH', 'CMAKE_ARGS', 'CMAKE_PREFIX_PATH', 'COLORTERM', 'CONDA_BUILD_SYSROOT', 'CONDA_DEFAULT_ENV', 'CONDA_EXE', 'CONDA_PREFIX', 'CONDA_PROMPT_MODIFIER', 'CONDA_PYTHON_EXE', 'CONDA_SHLVL', 'CONDA_TOOLCHAIN_BUILD', 'CONDA_TOOLCHAIN_HOST', 'CPP', 'CPPFLAGS', 'CPPYY_API_PATH', 'CPPYY_NO_ROOT_FILTER', 'CUBACORES', 'CXX', 'CXXFILT', 'CXXFLAGS', 'CXX_FOR_BUILD', 'DBUS_SESSION_BUS_ADDRESS', 'DEBUGINFOD_URLS', 'DEBUG_CFLAGS', 'DEBUG_CPPFLAGS', 'DEBUG_CXXFLAGS', 'DEBUG_FFLAGS', 'DEBUG_FORTRANFLAGS', 'DWP', 'ELFEDIT', 'F77', 'F90', 'F95', 'FC', 'FC_FOR_BUILD', 'FFLAGS', 'FORTRANFLAGS', 'GCC', 'GCC_AR', 'GCC_NM', 'GCC_RANLIB', 'GFORTRAN', 'GIT_ASKPASS', 'GOMAXPROCS', 'GPROF', 'GSETTINGS_SCHEMA_DIR', 'GSETTINGS_SCHEMA_DIR_CONDA_BACKUP', 'GUESTFISH_INIT', 'GUESTFISH_OUTPUT', 'GUESTFISH_PS1', 'GUESTFISH_RESTORE', 'GXX', 'HISTCONTROL', 'HISTSIZE', 'HISTTIMEFORMAT', 'HOME', 'HOST', 'HOSTNAME', 'JULIA_NUM_THREADS', 'KDEDIRS', 'LANG', 'LC_TIME', 'LD', 'LDFLAGS', 'LD_GOLD', 'LD_LIBRARY_PATH', 'LESSOPEN', 'LOADEDMODULES', 'LOGNAME', 'LS_COLORS', 'MAIL', 'MANPATH', 'MESON_ARGS', 'MKL_NUM_THREADS', 'MODULEPATH', 'MODULESHOME', 'MODULES_CMD', 'MODULES_RUN_QUARANTINE', 'MOTD_SHOWN', 'NM', 'NUMEXPR_NUM_THREADS', 'OBJCOPY', 'OBJDUMP', 'OLDPWD', 'OMP_NUM_THREADS', 'OMP_THREAD_LIMIT', 'OPENBLAS_NUM_THREADS', 'OPMC_SITE_NAME', 'PATH', 'PWD', 'PYTHIA8', 'PYTHIA8DATA', 'PYTHIA8_DIR', 'RANLIB', 'READELF', 'ROOTSYS', 'SHELL', 'SHLVL', 'SIZE', 'SSH_ASKPASS', 'SSH_CLIENT', 'SSH_CONNECTION', 'SSL_CERT_DIR', 'SSL_CERT_FILE', 'STRINGS', 'STRIP', 'S_COLORS', 'TEMP', 'TERM', 'TERM_PROGRAM', 'TERM_PROGRAM_VERSION', 'TF_LOOP_PARALLEL_ITERATIONS', 'TF_NUM_THREADS', 'TMP', 'TMPDIR', 'USER', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS', 'VSCODE_GIT_ASKPASS_MAIN', 'VSCODE_GIT_ASKPASS_NODE', 'VSCODE_GIT_IPC_HANDLE', 'VSCODE_IPC_HOOK_CLI', 'XDG_DATA_DIRS', 'XDG_RUNTIME_DIR', 'XDG_SESSION_CLASS', 'XDG_SESSION_ID', 'XDG_SESSION_TYPE', 'XML_CATALOG_FILES', '_', '_CE_CONDA', '_CE_M', '_CHIRP_DELAYED_UPDATE_PREFIX', '_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_CONDOR_ANCESTOR_3691536', '_CONDOR_ANCESTOR_72036', '_CONDOR_ANCESTOR_72253', '_CONDOR_BIN', '_CONDOR_CHIRP_CONFIG', '_CONDOR_IHEP_JOB_ID', '_CONDOR_IHEP_REMOTE_HOST', '_CONDOR_IHEP_SUBMISSION_TIME', '_CONDOR_JOB_AD', '_CONDOR_JOB_IWD', '_CONDOR_JOB_PIDS', '_CONDOR_MACHINE_AD', '_CONDOR_SCRATCH_DIR', '_CONDOR_SLOT', '_CONDOR_WRAPPER_ERROR_FILE', '_OPMC_HTC_JOB_INFO', '__MODULES_LMINIT', 'build_alias', 'host_alias', 'which_declare']
+
+start the run
+python /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/mg5condor/handle_code/reco_ana/main.py gg2e2m_bkg 10,11,12,13,14,15,16,17,18,19 reco.root --condor
+end of the run
+
+Fri 20 Sep 20:44:59 CST 2024
+

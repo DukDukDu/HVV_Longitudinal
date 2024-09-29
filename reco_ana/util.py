@@ -87,57 +87,57 @@ def dynamic_imp(name, class_name):
 #This function is used to pair e and anti-e from same Z boson in the 4e final state.
 #Method: Compare the dli i.e. distances between mass points from different pairs and (91, 91),
 #and choose the closest one as the best option.
-def lep_pair(dl1, dl2, dl3, l0_v4, l1_v4, l2_v4, l3_v4):
+def lep_pair(dl1, dl2, dl3, lt):
     ll1_v4 = None
     ll2_v4 = None
     lt_z1 = []
     lt_z2 = []
     if dl1 < dl2 :
         if dl1 < dl3:
-            if (l0_v4 + l1_v4).Pt() > (l2_v4 + l3_v4).Pt():
-                ll1_v4 = l0_v4 + l1_v4
-                ll2_v4 = l2_v4 + l3_v4
-                lt_z1.append((l0_v4, 0)), lt_z1.append((l1_v4, 1))
-                lt_z2.append((l2_v4, 0)), lt_z2.append((l3_v4, 1))
+            if (lt[0][0] + lt[1][0]).Pt() > (lt[2][0] + lt[3][0]).Pt():
+                ll1_v4 = lt[0][0] + lt[1][0]
+                ll2_v4 = lt[2][0] + lt[3][0]
+                lt_z1.append((lt[0][0], lt[0][1])), lt_z1.append((lt[1][0], lt[1][1]))
+                lt_z2.append((lt[2][0], lt[2][1])), lt_z2.append((lt[3][0], lt[3][1]))
             else:
-                ll1_v4 = l2_v4 + l3_v4
-                ll2_v4 = l0_v4 + l1_v4
-                lt_z1.append((l2_v4, 0)), lt_z1.append((l3_v4, 1))
-                lt_z2.append((l0_v4, 0)), lt_z2.append((l1_v4, 1))
+                ll1_v4 = lt[2][0] + lt[3][0]
+                ll2_v4 = lt[0][0] + lt[1][0]
+                lt_z1.append((lt[2][0], lt[2][1])), lt_z1.append((lt[3][0], lt[3][1]))
+                lt_z2.append((lt[0][0], lt[0][1])), lt_z2.append((lt[1][0], lt[1][1]))
         else:
-            if (l0_v4 + l3_v4).Pt() > (l1_v4 + l2_v4).Pt():
-                ll1_v4 = l0_v4 + l3_v4
-                ll2_v4 = l1_v4 + l2_v4
-                lt_z1.append((l0_v4, 0)), lt_z1.append((l3_v4, 1))
-                lt_z2.append((l1_v4, 0)), lt_z2.append((l2_v4, 1))
+            if (lt[0][0] + lt[3][0]).Pt() > (lt[1][0] + lt[2][0]).Pt():
+                ll1_v4 = lt[0][0] + lt[3][0]
+                ll2_v4 = lt[1][0] + lt[2][0]
+                lt_z1.append((lt[0][0], lt[0][1])), lt_z1.append((lt[3][0], lt[3][1]))
+                lt_z2.append((lt[1][0], lt[1][1])), lt_z2.append((lt[2][0], lt[2][1]))
             else:
-                ll1_v4 = l1_v4 + l2_v4
-                ll2_v4 = l0_v4 + l3_v4
-                lt_z1.append((l1_v4, 0)), lt_z1.append((l2_v4, 1))
-                lt_z2.append((l0_v4, 0)), lt_z2.append((l3_v4, 1))
+                ll1_v4 = lt[1][0] + lt[2][0]
+                ll2_v4 = lt[0][0] + lt[3][0]
+                lt_z1.append((lt[1][0], lt[1][1])), lt_z1.append((lt[2][0], lt[2][1]))
+                lt_z2.append((lt[0][0], lt[0][1])), lt_z2.append((lt[3][0], lt[3][1]))
     else:
         if dl2 < dl3:
-            if (l0_v4 + l2_v4).Pt() > (l1_v4 + l3_v4).Pt():
-                ll1_v4 = l0_v4 + l2_v4
-                ll2_v4 = l1_v4 + l3_v4
-                lt_z1.append((l0_v4, 0)), lt_z1.append((l2_v4, 1))
-                lt_z2.append((l1_v4, 0)), lt_z2.append((l3_v4, 1))
+            if (lt[0][0] + lt[2][0]).Pt() > (lt[1][0] + lt[3][0]).Pt():
+                ll1_v4 = lt[0][0] + lt[2][0]
+                ll2_v4 = lt[1][0] + lt[3][0]
+                lt_z1.append((lt[0][0], lt[0][1])), lt_z1.append((lt[2][0], lt[2][1]))
+                lt_z2.append((lt[1][0], lt[1][1])), lt_z2.append((lt[3][0], lt[3][1]))
             else:
-                ll1_v4 = l1_v4 + l3_v4
-                ll2_v4 = l0_v4 + l2_v4
-                lt_z1.append((l1_v4, 0)), lt_z1.append((l3_v4, 1))
-                lt_z2.append((l0_v4, 0)), lt_z2.append((l2_v4, 1))
+                ll1_v4 = lt[1][0] + lt[3][0]
+                ll2_v4 = lt[0][0] + lt[2][0]
+                lt_z1.append((lt[1][0], lt[1][1])), lt_z1.append((lt[3][0], lt[3][1]))
+                lt_z2.append((lt[0][0], lt[0][1])), lt_z2.append((lt[2][0], lt[2][1]))
         else:
-            if (l0_v4 + l3_v4).Pt() > (l1_v4 + l2_v4).Pt():
-                ll1_v4 = l0_v4 + l3_v4
-                ll2_v4 = l1_v4 + l2_v4
-                lt_z1.append((l0_v4, 0)), lt_z1.append((l3_v4, 1))
-                lt_z2.append((l1_v4, 0)), lt_z2.append((l2_v4, 1))
+            if (lt[0][0] + lt[3][0]).Pt() > (lt[1][0] + lt[2][0]).Pt():
+                ll1_v4 = lt[0][0] + lt[3][0]
+                ll2_v4 = lt[1][0] + lt[2][0]
+                lt_z1.append((lt[0][0], lt[0][1])), lt_z1.append((lt[3][0], lt[3][1]))
+                lt_z2.append((lt[1][0], lt[1][1])), lt_z2.append((lt[2][0], lt[2][1]))
             else:
-                ll1_v4 = l1_v4 + l2_v4
-                ll2_v4 = l0_v4 + l3_v4
-                lt_z1.append((l1_v4, 0)), lt_z1.append((l2_v4, 1))
-                lt_z2.append((l0_v4, 0)), lt_z2.append((l3_v4, 1))
+                ll1_v4 = lt[1][0] + lt[2][0]
+                ll2_v4 = lt[0][0] + lt[3][0]
+                lt_z1.append((lt[1][0], lt[1][1])), lt_z1.append((lt[2][0], lt[2][1]))
+                lt_z2.append((lt[0][0], lt[0][1])), lt_z2.append((lt[3][0], lt[3][1]))
 
     return ll1_v4, ll2_v4, lt_z1, lt_z2
 

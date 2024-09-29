@@ -1,0 +1,36 @@
+Parallel runs with condor: True
+{'condor': True}
+Processing on gg2e2m_sig ...
+
+Storing in /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/ / 
+
+Sample Index(SampleID) = 002 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul90.root 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul91.root 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul92.root 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul93.root 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul94.root 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul95.root 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul96.root 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul97.root 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul98.root 
+
+Add to chain Delphes the file /publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample/mc.002.gg2e2m_sig.showersimul/showersimul99.root 
+
+In total loaded in 10 root files
+In total loaded in 50000 events
+Calculating basic weights...
+
+0.02868
+Analysis type: gg2e2m
+Run over 50000 events after truth filter if any
+Total nb of evt loops: 50000
