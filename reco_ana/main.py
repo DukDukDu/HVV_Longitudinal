@@ -40,13 +40,13 @@ def main():
     print(basic_weight)
 
     ana = None
-    if 'gg2e2m' in _process_name:
+    if '2e2m' in _process_name:
         print('Analysis type: gg2e2m')
         ana = analysis_gg2e2m.analysis_gg2e2m(chain, sampleID, event_number, basic_weight, _ofile_name)
-    elif 'gg4e' in _process_name:
+    elif '4e' in _process_name:
         print('Analysis type: gg4e')
         ana = analysis_gg4e.analysis_gg4e(chain, sampleID, event_number, basic_weight, _ofile_name)
-    elif 'gg4m' in _process_name:
+    elif '4m' in _process_name:
         print('Analysis type: gg4m')
         ana = analysis_gg4m.analysis_gg4m(chain, sampleID, event_number, basic_weight, _ofile_name)
     else:

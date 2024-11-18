@@ -97,6 +97,8 @@ class analysis_gg4m(analysis):
             mumu1_v4 = None
             mumu2_v4 = None
             tot_v4 = None
+            b_m11, b_m12 = None, None
+            b_m21, b_m22 = None, None
 
             pdgid = []
             daughtersPt = []
@@ -159,8 +161,8 @@ class analysis_gg4m(analysis):
 
                 mumu1_v4, mumu2_v4, lt_z1, lt_z2 = lep_pair(dl1, dl2, dl3, lt_muon_sel)
 
-                b_m11 = lt_z1[0][0].Clone(), b_m12 = lt_z1[1][0].Clone()
-                b_m21 = lt_z2[0][0].Clone(), b_m22 = lt_z2[1][0].Clone()
+                b_m11, b_m12 = lt_z1[0][0].Clone(), lt_z1[1][0].Clone()
+                b_m21, b_m22 = lt_z2[0][0].Clone(), lt_z2[1][0].Clone()
 
                 mm_t3_1 = mumu1_v4.BoostVector()
                 mm_t3_1 = R.TVector3(-mm_t3_1.X(), -mm_t3_1.Y(), -mm_t3_1.Z())

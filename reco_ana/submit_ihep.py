@@ -14,7 +14,7 @@ import sample
 ### ### ### ### ### ### 
 runname = sys.argv[1]
 procname = sys.argv[2]
-nfileperjob = 10
+nfileperjob = 20
 ### ### ### ### ### ### 
 # end of user inputs #
 ### ### ### ### ### ### 

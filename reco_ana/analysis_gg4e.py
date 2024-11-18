@@ -98,6 +98,8 @@ class analysis_gg4e(analysis):
             ee1_v4 = None
             ee2_v4 = None
             tot_v4 = None
+            b_e11, b_e12 = None, None
+            b_e21, b_e22 = None, None
 
             pdgid = []
             daughtersPt = []
@@ -160,8 +162,8 @@ class analysis_gg4e(analysis):
 
                 ee1_v4, ee2_v4, lt_z1, lt_z2 = lep_pair(dl1, dl2, dl3, lt_electron_sel)
 
-                b_e11 = lt_z1[0][0].Clone(), b_e12 = lt_z1[1][0].Clone()
-                b_e21 = lt_z2[0][0].Clone(), b_e22 = lt_z2[1][0].Clone()
+                b_e11, b_e12 = (lt_z1[0][0]).Clone(), (lt_z1[1][0]).Clone()
+                b_e21, b_e22 = lt_z2[0][0].Clone(), lt_z2[1][0].Clone()
                 
                 ee_t3_1 = ee1_v4.BoostVector()
                 ee_t3_1 = R.TVector3(-ee_t3_1.X(), -ee_t3_1.Y(), -ee_t3_1.Z())

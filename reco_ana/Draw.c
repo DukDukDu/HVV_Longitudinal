@@ -5,7 +5,7 @@ void draw_fun(TTree *tree_tot, TTree *tree_bkg, TTree *tree_sig, double nbin, do
     //c1->SetLogx();
     //c1->SetLogy();
 
-    string pathpng = "./pic/gg2e2m/";
+    string pathpng = "./pic/2e2m/";
     string png = ".png";
     string result = pathpng + name + png;
     const char *c_res = result.c_str();
@@ -47,9 +47,9 @@ void draw_fun(TTree *tree_tot, TTree *tree_bkg, TTree *tree_sig, double nbin, do
     h3->Draw("hist same");
 
     TLegend *legend0 = new TLegend(0.7, 0.8, 0.9, 0.9);
-    legend0->AddEntry(h1, "tot", "l");
-    legend0->AddEntry(h2, "bkg", "l");
-    legend0->AddEntry(h3, "sig", "l");
+    legend0->AddEntry(h1, "tot_tt", "l");
+    legend0->AddEntry(h2, "bkg_tt", "l");
+    legend0->AddEntry(h3, "sig_tt", "l");
     legend0->Draw();
 
     c1->SaveAs(c_res);
@@ -145,65 +145,74 @@ void draw_fun_xs(TTree *tree_tot, TTree *tree_bkg, TTree *tree_sig, double nbin,
 }
 
 void Draw(){
-    TFile *f_tot = new TFile("gg2e2m_tot.root", "READ");
-    TFile *f_bkg = new TFile("gg2e2m_bkg.root", "READ");
-    TFile *f_sig = new TFile("gg2e2m_sig.root", "READ");
+    TFile *f_tot = new TFile("./rootfile/2e2m_tot_tt.root", "READ");
+    TFile *f_bkg = new TFile("./rootfile/2e2m_bkg_tt.root", "READ");
+    TFile *f_sig = new TFile("./rootfile/2e2m_sig_tt.root", "READ");
 
     TTree *tree_tot = (TTree*)f_tot->Get("Events");
     TTree *tree_bkg = (TTree*)f_bkg->Get("Events");
     TTree *tree_sig = (TTree*)f_sig->Get("Events");
 
-    double fL = -0.5 - (-1)*0.23122;
-    double fR = - (-1)*0.23122;
+    // double fL = -0.5 - (-1)*0.23122;
+    // double fR = - (-1)*0.23122;
 
-    cout << "fL = " << fL << endl;
-    cout << "fR = " << fR << endl;
+    // cout << "fL = " << fL << endl;
+    // cout << "fR = " << fR << endl;
 
-    TCanvas *c1 = new TCanvas;
-    c1->Divide(1,2);
-    c1->cd(1);
-    tree_bkg->Draw("theta_cos1cos2:phi1", "", "COLZ");
-    c1->cd(2);
-    tree_sig->Draw("theta_cos1cos2:phi1", "", "COLZ");
-    c1->SaveAs("./theta.png");
+    // TCanvas *c1 = new TCanvas;
+    // c1->Divide(1,2);
+    // c1->cd(1);
+    // tree_bkg->Draw("theta_cos1cos2:phi1", "", "COLZ");
+    // c1->cd(2);
+    // tree_sig->Draw("theta_cos1cos2:phi1", "", "COLZ");
+    // c1->SaveAs("./theta.png");
 
-    TCanvas *c2 = new TCanvas;
-    TH2F *ca = new TH2F("ca", " ", 50, -1, 1, 50, -1, 1);
-    TH2F *cb = new TH2F("cb", " ", 50, -1, 1, 50, -1, 1);
-    c2->Divide(1,2);
-    c2->cd(1);
-    tree_bkg->Draw("costheta1:costheta2>>ca", "", "COLZ");
-    ca->SetStats(0);
-    ca->GetYaxis()->SetTitle("cos#theta_{1}");
-    ca->GetXaxis()->SetTitle("cos#theta_{2}");
-    c2->cd(2);
-    tree_sig->Draw("costheta1:costheta2>>cb", "", "COLZ");
-    cb->SetStats(0);
-    cb->GetYaxis()->SetTitle("cos#theta_{1}");
-    cb->GetXaxis()->SetTitle("cos#theta_{2}");
-    c2->SaveAs("./ctheta.png");
+    // TCanvas *c2 = new TCanvas;
+    // TH2F *ca = new TH2F("ca", " ", 50, -1, 1, 50, -1, 1);
+    // TH2F *cb = new TH2F("cb", " ", 50, -1, 1, 50, -1, 1);
+    // c2->Divide(1,2);
+    // c2->cd(1);
+    // tree_bkg->Draw("costheta1:costheta2>>ca", "", "COLZ");
+    // ca->SetStats(0);
+    // ca->GetYaxis()->SetTitle("cos#theta_{1}");
+    // ca->GetXaxis()->SetTitle("cos#theta_{2}");
+    // c2->cd(2);
+    // tree_sig->Draw("costheta1:costheta2>>cb", "", "COLZ");
+    // cb->SetStats(0);
+    // cb->GetYaxis()->SetTitle("cos#theta_{1}");
+    // cb->GetXaxis()->SetTitle("cos#theta_{2}");
+    // c2->SaveAs("./ctheta.png");
 
     TCanvas *c3 = new TCanvas;
-    c3->Divide(2,1);
+    c3->Divide(3,1);
     c3->cd(1);
-    TH2F *angle1 = new TH2F("angle1", " ", 50, 0, 1, 50, 0, 1);
-    TH2F *angle2 = new TH2F("angle2", " ", 50, 0, 1, 50, 0, 1);
-    tree_bkg->Draw("theta1:theta2>>angle1", "", "COLZ");
+    TH2F *angle1 = new TH2F("angle1", " ", 30, 0, 1, 30, 0, 1);
+    TH2F *angle2 = new TH2F("angle2", " ", 30, 0, 1, 30, 0, 1);
+    TH2F *angle3 = new TH2F("angle3", " ", 30, 0, 1, 30, 0, 1);
+    tree_tot->Draw("theta1:theta2>>angle1", "", "COLZ");
     angle1->SetStats(0);
     angle1->GetYaxis()->SetTitle("#theta_{1}");
     angle1->GetXaxis()->SetTitle("#theta_{2}");
+    angle1->SetTitle("tot_tt");
     c3->cd(2);
-    tree_sig->Draw("theta1:theta2>>angle2", "", "COLZ");
+    tree_bkg->Draw("theta1:theta2>>angle2", "", "COLZ");
     angle2->SetStats(0);
     angle2->GetYaxis()->SetTitle("#theta_{1}");
     angle2->GetXaxis()->SetTitle("#theta_{2}");
-    c3->SaveAs("./sphi.png");
+    angle2->SetTitle("bkg_tt");
+    c3->cd(3);
+    tree_sig->Draw("theta1:theta2>>angle3", "", "COLZ");
+    angle3->SetStats(0);
+    angle3->GetYaxis()->SetTitle("#theta_{1}");
+    angle3->GetXaxis()->SetTitle("#theta_{2}");
+    angle3->SetTitle("sig_tt");
+    c3->SaveAs("./sphi.pdf");
 
 
 
     // string theta_cos1cos2 = "theta_cos1cos2";
     // string x_theta_cos1cos2 = "cos#theta_{1}cos#theta_{2}";
-    // draw_fun_xs(tree_tot, tree_bkg, tree_sig, 300, -1.5, 1.5, theta_cos1cos2, x_theta_cos1cos2);
+    // draw_fun(tree_tot, tree_bkg, tree_sig, 300, -1.5, 1.5, theta_cos1cos2, x_theta_cos1cos2);
 
     // string phi_cos1cos2 = "phi_cos1cos2";
     // string x_phi_cos1cos2 = "cos#phi_{1}cos#phi_{2}";

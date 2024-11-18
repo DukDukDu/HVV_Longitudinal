@@ -2,7 +2,7 @@ import os
 
 data_path = '/publicfs/cms/user/mingxuanzhang/gridpack/simulation_tool/delpycondor/sample'
 
-Lumi = 300  # fb^-1
+Lumi = 3000  # fb^-1
 
 sample_dict = {
     'gg2e2m_tot': 'mc.000.gg2e2m_tot.showersimul/',
@@ -14,6 +14,16 @@ sample_dict = {
     'gg4m_tot': 'mc.006.gg4m_tot.showersimul/',
     'gg4m_bkg': 'mc.007.gg4m_bkg.showersimul',
     'gg4m_sig': 'mc.008.gg4m_sig.showersimul',
+    '2e2m_bkg': 'mc.009.2e2m_bkg.showersimul',
+    '2e2m_bkg_ll': 'mc.010.2e2m_bkg_ll.showersimul',
+    '2e2m_bkg_tt': 'mc.011.2e2m_bkg_tt.showersimul',
+    '2e2m_sig': 'mc.012.2e2m_sig.showersimul',
+    '2e2m_sig_ll': 'mc.013.2e2m_sig_ll.showersimul',
+    '2e2m_sig_tt': 'mc.014.2e2m_sig_tt.showersimul',
+    '2e2m_total': 'mc.015.2e2m_total.showersimul',
+    '2e2m_tot_ll': 'mc.016.2e2m_tot_ll.showersimul',
+    '2e2m_tot_tt': 'mc.017.2e2m_tot_tt.showersimul',
+    '2e2m_qqzz': 'mc.018.2e2m_qqzz.showersimul',
 }
 
 id2proc_dict = {
@@ -26,6 +36,16 @@ id2proc_dict = {
     '006': 'gg4m_tot',
     '007': 'gg4m_bkg',
     '008': 'gg4m_sig',
+    '009': '2e2m_bkg',
+    '010': '2e2m_bkg_ll',
+    '011': '2e2m_bkg_tt',
+    '012': '2e2m_sig',
+    '013': '2e2m_sig_ll',
+    '014': '2e2m_sig_tt',
+    '015': '2e2m_total',
+    '016': '2e2m_tot_ll',
+    '017': '2e2m_tot_tt',
+    '018': '2e2m_qqzz',
 }
 
 xsec_dict = {
@@ -38,6 +58,16 @@ xsec_dict = {
     'gg4m_tot': 0.8231,
     'gg4m_bkg': 0.8656,
     'gg4m_sig': 0.04811,
+    '2e2m_bkg': 1.581,
+    '2e2m_bkg_ll': 0.1095,
+    '2e2m_bkg_tt': 1.381,
+    '2e2m_sig': 0.09422,
+    '2e2m_sig_ll': 0.08749,
+    '2e2m_sig_tt': 0.006394,
+    '2e2m_total': 1.511,
+    '2e2m_tot_ll': 0.08468,
+    '2e2m_tot_tt': 1.374,
+    '2e2m_qqzz': 10.55,
 }
 
 eff_dict = {
@@ -50,6 +80,16 @@ eff_dict = {
     'gg4m_tot': 1.0,
     'gg4m_bkg': 1.0,
     'gg4m_sig': 1.0,
+    '2e2m_bkg': 1.0,
+    '2e2m_bkg_ll': 1.0,
+    '2e2m_bkg_tt': 1.0,
+    '2e2m_sig': 1.0,
+    '2e2m_sig_ll': 1.0,
+    '2e2m_sig_tt': 1.0,
+    '2e2m_total': 1.0,
+    '2e2m_tot_ll': 1.0,
+    '2e2m_tot_tt': 1.0,
+    '2e2m_qqzz': 1.0,
 }
 
 kFactor_dict = {
@@ -62,6 +102,16 @@ kFactor_dict = {
     'gg4m_tot': 1.0,
     'gg4m_bkg': 1.0,
     'gg4m_sig': 1.0,
+    '2e2m_bkg': 1.0,
+    '2e2m_bkg_ll': 1.0,
+    '2e2m_bkg_tt': 1.0,
+    '2e2m_sig': 1.0,
+    '2e2m_sig_ll': 1.0,
+    '2e2m_sig_tt': 1.0,
+    '2e2m_total': 1.0,
+    '2e2m_tot_ll': 1.0,
+    '2e2m_tot_tt': 1.0,
+    '2e2m_qqzz': 1.0,
 }
 
 ntotal_dict = {
@@ -74,4 +124,14 @@ ntotal_dict = {
     'gg4m_tot': 1000.0,
     'gg4m_bkg': 1000.0,
     'gg4m_sig': 1000.0,
+    '2e2m_bkg': 438.6503617861308,
+    '2e2m_bkg_ll': 30.497390933305724,
+    '2e2m_bkg_tt': 395.2987141092308,
+    '2e2m_sig': 37.36056441994151,
+    '2e2m_sig_ll': 40.03452355391346,
+    '2e2m_sig_tt': 2.432906762805942,
+    '2e2m_total': 366.58591649029404,
+    '2e2m_tot_ll': 19.511863552907016,
+    '2e2m_tot_tt': 259.71945776836947,
+    '2e2m_qqzz': 5269.474368542433,
 }

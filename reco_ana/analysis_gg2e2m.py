@@ -5,11 +5,11 @@ import sampleconfig
 from analysis import analysis
 import math
 import itertools
-#import Mela 
+import Mela 
 import numpy as np
 
 class analysis_gg2e2m(analysis):
-    #mela = Mela.Mela(13, 125, Mela.VerbosityLevel.SILENT)   #Mela initialization
+    mela = Mela.Mela(13, 125, Mela.VerbosityLevel.SILENT)   #Mela initialization
 
     def __init__(self, ch, sampleID, nevent, basic_weight, outfnm):
         analysis.__init__(self, ch, sampleID, nevent, basic_weight, outfnm)
@@ -49,6 +49,8 @@ class analysis_gg2e2m(analysis):
 
         analysis.mknewlf( self, 'probsig', 'F')
         analysis.mknewlf( self, 'probbkg', 'F')
+        analysis.mknewlf( self, 'probbkg_qq', 'F')
+        analysis.mknewlf( self, 'probtot', 'F')
         analysis.mknewlf( self, 'D_value', 'F')
 
         analysis.mknewlf( self, 'theta_cos1cos2', 'F')
@@ -152,6 +154,7 @@ class analysis_gg2e2m(analysis):
             analysis.sort_pt(self, lt_muon_sel)
 
             if len(lt_electron_sel) == 2:
+                analysis.fill_cut(self, '2 electrons within detector acceptance')
                 if self.get_echarge(lt_electron_sel[0][1])*self.get_echarge(lt_electron_sel[1][1]) < 0:
                     e0_v4 = lt_electron_sel[0][0]
                     b_e0_v4 = e0_v4.Clone()
@@ -167,6 +170,7 @@ class analysis_gg2e2m(analysis):
                     #print(b_e0_v4.Px())
                     #print(e0_v4)
                     #print(lt_electron_sel)
+                    analysis.fill_cut(self, 'oppo sign electrons')
                     if self.get_echarge(lt_electron_sel[0][1]) > 0:
                         pvector11 = np.array([b_e0_v4.Px(), b_e0_v4.Py(), b_e0_v4.Pz()])
                         pvector12 = np.array([b_e1_v4.Px(), b_e1_v4.Py(), b_e1_v4.Pz()])
@@ -183,9 +187,9 @@ class analysis_gg2e2m(analysis):
             else:
                 continue
 
-            analysis.fill_cut(self, '2 oppo sign electron within detector acceptance')
 
             if len(lt_muon_sel) == 2:
+                analysis.fill_cut(self, '2 muons within detector acceptance')
                 if self.get_muoncharge(lt_muon_sel[0][1])*self.get_muoncharge(lt_muon_sel[1][1]) < 0:
                     mu0_v4 = lt_muon_sel[0][0]
                     b_mu0_v4 = mu0_v4.Clone()
@@ -198,6 +202,7 @@ class analysis_gg2e2m(analysis):
                     #print(mm_t3.X())
                     b_mu0_v4.Boost(mm_t3)
                     b_mu1_v4.Boost(mm_t3)
+                    analysis.fill_cut(self, 'oppo sign muons')
                     if self.get_muoncharge(lt_muon_sel[0][1]) > 0:
                         pvector21 = np.array([b_mu0_v4.Px(), b_mu0_v4.Py(), b_mu0_v4.Pz()])
                         pvector22 = np.array([b_mu1_v4.Px(), b_mu1_v4.Py(), b_mu1_v4.Pz()])
@@ -216,7 +221,6 @@ class analysis_gg2e2m(analysis):
             else:
                 continue
 
-            analysis.fill_cut(self, '2 oppo sign muon within detector acceptance')
 
             if (e0_v4 + e1_v4 + mu0_v4 + mu1_v4).M() > 220:
                 pass
@@ -275,22 +279,28 @@ class analysis_gg2e2m(analysis):
 
             analysis.fill_cut(self, 'ml_1l_2 > 4GeV')
 
-            # daughters = Mela.SimpleParticleCollection_t(pdgid, daughtersPt, daughtersEta, daughtersPhi, daughtersMass, True)
-            # mothers = None
-            # associated = None
-            # # print(pdgid)
-            # # print(daughtersPt)
+            daughters = Mela.SimpleParticleCollection_t(pdgid, daughtersPt, daughtersEta, daughtersPhi, daughtersMass, True)
+            mothers = None
+            associated = None
+            # print(pdgid)
+            # print(daughtersPt)
             
-            # #Mela calculating the probability assuming different processes
-            # self.mela.setInputEvent(daughters, associated, mothers, True)
+            #Mela calculating the probability assuming different processes
+            self.mela.setInputEvent(daughters, associated, mothers, True)
             
-            # self.mela.setProcess(Mela.Process.HSMHiggs, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)
-            # probsig = self.mela.computeP(False)
+            self.mela.setProcess(Mela.Process.HSMHiggs, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)
+            probsig = self.mela.computeP(False)
             
-            # self.mela.setProcess(Mela.Process.bkgZZ, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)
-            # probbkg = self.mela.computeP(False)
+            self.mela.setProcess(Mela.Process.bkgZZ, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)
+            probbkg = self.mela.computeP(False)
             
-            #calculate the theta an phi angle
+            self.mela.setProcess(Mela.Process.bkgZZ, Mela.MatrixElement.MCFM, Mela.Production.ZZQQB)
+            probbkg_qq = self.mela.computeP(False)
+
+            self.mela.setProcess(Mela.Process.bkgZZ_SMHiggs, Mela.MatrixElement.MCFM, Mela.Production.ZZGG)
+            probtot = self.mela.computeP(False)
+
+            #calculate the theta and phi angle
             tot_v4 = e0_v4 + e1_v4 + mu0_v4 + mu1_v4
 
             pvector1 = np.array([ee_v4.Px(), ee_v4.Py(), ee_v4.Pz()])
@@ -368,9 +378,11 @@ class analysis_gg2e2m(analysis):
             self.outlf['delta_phi_e'][0] = self.cal_phi(e0_v4, e1_v4)
             self.outlf['delta_phi_m'][0] = self.cal_phi(mu0_v4, mu1_v4)
 
-            self.outlf['probsig'][0] = 0#probsig
-            self.outlf['probbkg'][0] = 0#probbkg
-            self.outlf['D_value'][0] = 0#probsig/(probsig+probbkg)
+            self.outlf['probsig'][0] = probsig
+            self.outlf['probbkg'][0] = probbkg
+            self.outlf['probbkg_qq'][0] = probbkg_qq
+            self.outlf['probtot'][0] = probtot
+            self.outlf['D_value'][0] = probsig/(probsig+probbkg+probbkg_qq)
 
             self.outlf['theta_cos1cos2'][0] = theta_cos1cos2
             self.outlf['phi_cos1cos2'][0] = phi_cos1cos2
