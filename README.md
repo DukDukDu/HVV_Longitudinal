@@ -26,13 +26,13 @@ is the Delphes card for CMS.
 
 # Final
 You must run the code in the correct env. You'd better use conda to create your own virtual env.  
-'''
+```
 conda config --set channel_priority strict
 conda create -c conda-forge --name myroot root
 conda activate myroot
-'''  
+```
 And you also need Delphes built up in your env:
-'''
+```
 wget http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.5.0.tar.gz
 tar -zxf Delphes-3.5.0.tar.gz
 
@@ -42,10 +42,10 @@ cd build
 
 cmake -DCMAKE_INSTALL_PREFIX=/your/conda/env/path ..
 make -j 4 install
-'''  
+```
 And you also need MELA built up in your env. Below commands are run in the *JHUGenerator.v7.5.6/JHUGenMELA/* :
-'''
+```
 ./setup.sh
-'''  
+``` 
 Then you follow the instructions printed on the screen, and you will build up MELA easily. And before you use MELA, you 
 should add the env paths using command.
